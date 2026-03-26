@@ -339,7 +339,7 @@
 </div>
 
 <script>
-const GITHUB_PAT   = 'YOUR_GITHUB_PAT_HERE';
+const GITHUB_PAT   = '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';
 const GITHUB_OWNER = 'ringer71';
 const GITHUB_REPO  = 'Freshservice-Support-';
 const TOTAL_STEPS  = 5;
@@ -531,7 +531,7 @@ async function submitForm() {
   try {
     const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/dispatches`, {
       method:'POST',
-      headers:{'Accept':'application/vnd.github.v3+json','Authorization':`token ${GITHUB_PAT}`,'Content-Type':'application/json'},
+      headers:{'Accept':'application/vnd.github.v3+json','Authorization':`token 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}`,'Content-Type':'application/json'},
       body: JSON.stringify({event_type:'new-onboarding',client_payload:payload})
     });
     if (res.status===204) {
