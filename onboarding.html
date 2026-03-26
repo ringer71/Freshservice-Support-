@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NB Industries — New Employee Onboarding</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1b2a4a;
+    --navy-mid: #243659;
+    --blue: #2f9fe8;
+    --blue-light: #e8f4fd;
+    --green: #1a7f4b;
+    --green-light: #e8f7ee;
+    --border: #dde3ed;
+    --bg: #f0f3f8;
+    --text: #1a1f2e;
+    --muted: #6b7590;
+    --white: #ffffff;
+    --shadow: 0 2px 12px rgba(27,42,74,0.10);
+    --shadow-lg: 0 8px 32px rgba(27,42,74,0.14);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Sora', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    min-height: 100vh;
+    padding: 0 0 60px 0;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--navy);
+    padding: 0 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo {
+    width: 36px;
+    height: 36px;
+    background: var(--blue);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
+
+  .header h1 {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .header-badge {
+    background: rgba(47,159,232,0.2);
+    border: 1px solid rgba(47,159,232,0.4);
+    color: #7cc8f5;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.3px;
+  }
+
+  /* PROGRESS BAR */
+  .progress-bar {
+    background: var(--navy-mid);
+    height: 3px;
+    width: 100%;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--blue);
+    transition: width 0.4s ease;
+    width: 25%;
+  }
+
+  /* STEPS NAV */
+  .steps-nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    display: flex;
+    gap: 0;
+  }
+
+  .step-tab {
+    padding: 14px 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    user-select: none;
+  }
+
+  .step-tab.active {
+    color: var(--navy);
+    border-bottom-color: var(--blue);
+  }
+
+  .step-tab.done {
+    color: var(--green);
+  }
+
+  .step-num {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--border);
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .step-tab.active .step-num {
+    background: var(--blue);
+    color: #fff;
+  }
+
+  .step-tab.done .step-num {
+    background: var(--green);
+    color: #fff;
+  }
+
+  /* MAIN CONTENT */
+  .main {
+    max-width: 780px;
+    margin: 32px auto;
+    padding: 0 20px;
+  }
+
+  /* PANELS */
+  .panel {
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    overflow: hidden;
+    display: none;
+  }
+
+  .panel.active { display: block; }
+
+  .panel-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .panel-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+  }
+
+  .icon-blue { background: var(--blue-light); }
+  .icon-green { background: var(--green-light); }
+  .icon-purple { background: #f0ebff; }
+  .icon-orange { background: #fff3e8; }
+
+  .panel-title { font-size: 14px; font-weight: 700; color: var(--navy); }
+  .panel-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .panel-body { padding: 24px; }
+
+  /* FORM FIELDS */
+  .field-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .field-grid.one-col { grid-template-columns: 1fr; }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .field.span-2 { grid-column: span 2; }
+
+  label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--navy);
+    letter-spacing: 0.2px;
+  }
+
+  label .req { color: var(--blue); margin-left: 2px; }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="date"],
+  select {
+    padding: 10px 13px;
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    font-family: 'Sora', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    background: #fff;
+    outline: none;
+    transition: border 0.15s, box-shadow 0.15s;
+    width: 100%;
+  }
+
+  input:focus, select:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(47,159,232,0.12);
+  }
+
+  input::placeholder { color: #b4bbd0; }
+
+  /* SEARCH */
+  .search-wrap {
+    position: relative;
+    margin-bottom: 10px;
+  }
+  .search-wrap input {
+    padding-left: 36px;
+  }
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #b4bbd0;
+    font-size: 14px;
+    pointer-events: none;
+  }
+
+  /* ITEM LIST */
+  .item-list {
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    max-height: 260px;
+    overflow-y: auto;
+  }
+
+  .item-list::-webkit-scrollbar { width: 4px; }
+  .item-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .item-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-bottom: 1px solid #f3f5f9;
+    transition: background 0.1s;
+    cursor: pointer;
+  }
+
+  .item-row:last-child { border-bottom: none; }
+  .item-row:hover { background: #f8fafd; }
+  .item-row.selected { background: #f0f7ff; }
+
+  .item-row input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    accent-color: var(--blue);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .item-name {
+    flex: 1;
+    font-size: 13px;
+    color: var(--text);
+    user-select: none;
+  }
+
+  /* ACCESS TOGGLE */
+  .access-toggle {
+    display: flex;
+    opacity: 0.25;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    flex-shrink: 0;
+  }
+
+  .item-row.selected .access-toggle {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .tog {
+    padding: 3px 9px;
+    font-size: 10px;
+    font-family: 'DM Mono', monospace;
+    font-weight: 500;
+    border: 1.5px solid var(--border);
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.12s;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .tog:first-child { border-radius: 4px 0 0 4px; }
+  .tog:last-child { border-radius: 0 4px 4px 0; border-left: none; }
+  .tog.rw { background: var(--navy); border-color: var(--navy); color: #fff; }
+  .tog.ro { background: var(--blue-light); border-color: var(--blue); color: var(--blue); }
+
+  /* SUMMARY TAGS */
+  .summary-box {
+    margin-top: 12px;
+    min-height: 40px;
+    padding: 10px 12px;
+    background: #f7f9fc;
+    border: 1.5px dashed var(--border);
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    align-items: flex-start;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .tag.rw { background: var(--navy); color: #fff; }
+  .tag.ro { background: var(--blue-light); color: var(--blue); border: 1px solid var(--blue); }
+
+  .tag-remove {
+    cursor: pointer;
+    opacity: 0.6;
+    font-size: 13px;
+    line-height: 1;
+  }
+  .tag-remove:hover { opacity: 1; }
+
+  .count-pill {
+    background: var(--blue);
+    color: #fff;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 1px 7px;
+    font-family: 'DM Mono', monospace;
+    margin-left: 6px;
+  }
+
+  .no-items {
+    padding: 16px;
+    text-align: center;
+    color: #b4bbd0;
+    font-size: 12px;
+  }
+
+  /* NAV BUTTONS */
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 24px;
+  }
+
+  .btn {
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-family: 'Sora', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--muted);
+    border: 1.5px solid var(--border);
+  }
+  .btn-ghost:hover { background: var(--bg); }
+
+  .btn-primary {
+    background: var(--blue);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(47,159,232,0.3);
+  }
+  .btn-primary:hover { background: #1d87d0; }
+
+  .btn-success {
+    background: var(--green);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(26,127,75,0.3);
+  }
+  .btn-success:hover { background: #166b3d; }
+
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* SUCCESS SCREEN */
+  .success-screen {
+    text-align: center;
+    padding: 60px 40px;
+    display: none;
+  }
+
+  .success-screen.show { display: block; }
+
+  .success-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+    animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  @keyframes pop {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  .success-screen h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+
+  .success-screen p { color: var(--muted); font-size: 14px; line-height: 1.7; }
+
+  .ticket-ref {
+    display: inline-block;
+    margin-top: 20px;
+    background: var(--green-light);
+    color: var(--green);
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  /* SPINNER */
+  .spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255,255,255,0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* VALIDATION */
+  .field-error {
+    font-size: 11px;
+    color: #e53935;
+    margin-top: 2px;
+  }
+  input.invalid, select.invalid { border-color: #e53935; }
+
+  /* SECTION DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 20px 0;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 14px;
+  }
+
+  @media (max-width: 600px) {
+    .field-grid { grid-template-columns: 1fr; }
+    .field.span-2 { grid-column: span 1; }
+    .steps-nav { overflow-x: auto; }
+    .step-tab { white-space: nowrap; padding: 14px 12px; }
+    .header { padding: 0 16px; }
+    .main { padding: 0 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <div class="logo">NB</div>
+    <div>
+      <h1>New Employee Onboarding</h1>
+    </div>
+  </div>
+  <span class="header-badge">HR · People &amp; Culture</span>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<!-- STEP TABS -->
+<div class="steps-nav">
+  <div class="step-tab active" id="tab-1">
+    <div class="step-num">1</div> Employee Details
+  </div>
+  <div class="step-tab" id="tab-2">
+    <div class="step-num">2</div> Teams Access
+  </div>
+  <div class="step-tab" id="tab-3">
+    <div class="step-num">3</div> TeamUp Calendars
+  </div>
+  <div class="step-tab" id="tab-4">
+    <div class="step-num">4</div> Review &amp; Submit
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- STEP 1: EMPLOYEE DETAILS -->
+  <div class="panel active" id="step-1">
+    <div class="panel-header">
+      <div class="panel-icon icon-blue">👤</div>
+      <div>
+        <div class="panel-title">Employee Details</div>
+        <div class="panel-desc">Enter the new employee's information</div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="field-grid">
+        <div class="field">
+          <label>Full Name <span class="req">*</span></label>
+          <input type="text" id="fullName" placeholder="e.g. Sarah Johnson">
+          <div class="field-error" id="err-fullName"></div>
+        </div>
+        <div class="field">
+          <label>Personal Email <span class="req">*</span></label>
+          <input type="email" id="personalEmail" placeholder="personal@email.com">
+          <div class="field-error" id="err-personalEmail"></div>
+        </div>
+        <div class="field">
+          <label>Job Title <span class="req">*</span></label>
+          <input type="text" id="jobTitle" placeholder="e.g. Auto Electrician">
+          <div class="field-error" id="err-jobTitle"></div>
+        </div>
+        <div class="field">
+          <label>Work Email (to be assigned) <span class="req">*</span></label>
+          <input type="email" id="workEmail" placeholder="firstname.lastname@nbindustries.com.au">
+          <div class="field-error" id="err-workEmail"></div>
+        </div>
+        <div class="field">
+          <label>Department <span class="req">*</span></label>
+          <select id="department">
+            <option value="">— Select Department —</option>
+            <option>Auto Electrical</option>
+            <option>Mechanical Workshop</option>
+            <option>Spare Parts &amp; Warehouse</option>
+            <option>Sales</option>
+            <option>Finance</option>
+            <option>HR &amp; Payroll</option>
+            <option>ICT</option>
+            <option>Management</option>
+            <option>Marketing</option>
+            <option>Radio Communications</option>
+            <option>Other</option>
+          </select>
+          <div class="field-error" id="err-department"></div>
+        </div>
+        <div class="field">
+          <label>Work Location <span class="req">*</span></label>
+          <select id="workLocation">
+            <option value="">— Select Location —</option>
+            <option>Paget Workshop</option>
+            <option>AE Town</option>
+            <option>Rural View Workshop</option>
+            <option>NBI Office</option>
+            <option>Remote</option>
+          </select>
+          <div class="field-error" id="err-workLocation"></div>
+        </div>
+        <div class="field">
+          <label>Start Date <span class="req">*</span></label>
+          <input type="date" id="startDate">
+          <div class="field-error" id="err-startDate"></div>
+        </div>
+        <div class="field">
+          <label>Manager Name <span class="req">*</span></label>
+          <input type="text" id="managerName" placeholder="e.g. Brad Houghton">
+          <div class="field-error" id="err-managerName"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: TEAMS -->
+  <div class="panel" id="step-2">
+    <div class="panel-header">
+      <div class="panel-icon icon-blue">🔷</div>
+      <div>
+        <div class="panel-title">Microsoft Teams Access <span class="count-pill" id="teams-count">0</span></div>
+        <div class="panel-desc">Select Teams to add the employee to. Set Read/Write or Read Only per team.</div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="teams-search" class="search-box" placeholder="Search Teams..." oninput="filterTeams()">
+      </div>
+      <div class="item-list" id="teams-list"></div>
+      <div class="summary-box" id="teams-summary"><span>No teams selected yet.</span></div>
+    </div>
+  </div>
+
+  <!-- STEP 3: TEAMUP -->
+  <div class="panel" id="step-3">
+    <div class="panel-header">
+      <div class="panel-icon icon-green">📅</div>
+      <div>
+        <div class="panel-title">TeamUp Calendar Access <span class="count-pill" id="teamup-count">0</span></div>
+        <div class="panel-desc">Select calendars this employee needs. Read/Write allows editing; Read Only is view-only.</div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="item-list" id="teamup-list"></div>
+      <div class="summary-box" id="teamup-summary"><span>No calendars selected yet.</span></div>
+    </div>
+  </div>
+
+  <!-- STEP 4: REVIEW -->
+  <div class="panel" id="step-4">
+    <div class="panel-header">
+      <div class="panel-icon icon-orange">📋</div>
+      <div>
+        <div class="panel-title">Review &amp; Submit</div>
+        <div class="panel-desc">Check all details before submitting to IT</div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div id="review-content"></div>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success-screen" id="success-screen">
+    <div class="success-icon">✅</div>
+    <h2>Onboarding Request Submitted!</h2>
+    <p>Your request has been sent to IT. They will begin provisioning the account and access.<br>You will receive an email confirmation shortly.</p>
+    <div class="ticket-ref" id="ticket-ref">Ticket Created Successfully</div>
+  </div>
+
+  <!-- NAV BUTTONS -->
+  <div class="nav-row" id="nav-row">
+    <button class="btn btn-ghost" id="btn-back" onclick="prevStep()" style="display:none">← Back</button>
+    <div style="flex:1"></div>
+    <button class="btn btn-primary" id="btn-next" onclick="nextStep()">Next →</button>
+    <button class="btn btn-success" id="btn-submit" onclick="submitForm()" style="display:none">
+      <span id="submit-text">Submit to IT</span>
+      <div class="spinner" id="submit-spinner"></div>
+    </button>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────
+const TEAMS = [
+  "Customer Contacts",
+  "NB Industries Leadership Team",
+  "Mechanical Workshop",
+  "NB Radio Communications",
+  "NBI Customer Relationship Management (CRM)",
+  "Apprentices",
+  "Department Goals",
+  "NBI Management",
+  "Workshop communication",
+  "NB Finance",
+  "Auto Electrical Workshop",
+  "Ute Separation",
+  "NBI Recruitment",
+  "Auto Electrical (Town) - General Folder",
+  "NB HR-Payroll",
+  "HR - Department Rocks Scorecard Entry",
+  "Comms Training",
+  "Fire Warden & Evacuation",
+  "2024 Parts & Warehouse Planning",
+  "Training and Inductions",
+  "HR (Confidential)",
+  "Machine Builds/Overhauls",
+  "NBI SLT",
+  "NB Warehouse Team",
+  "NB Office Staff Leave",
+  "QME - NB Industries",
+  "CVM Breathesafe Installations Site Team",
+  "Customers",
+  "Spare Parts Processes and Improvements",
+  "Breathe-safe Installs",
+  "GCAA - Glencore Coal Assets Australia",
+  "Spare Parts - General",
+  "NB Parts Team",
+  "FORMS- General Employee/Employer Forms",
+  "NB - Suppliers",
+  "NB Industries Intranet",
+  "NBI ICT",
+  "NB Sales Team",
+  "Marketing Folder for NB Products and Services",
+  "NB Tech Products and Suppliers",
+  "Analyst Projects '23",
+  "Business Process Analysis",
+  "Master BOM Data",
+  "NBI IVMS",
+  "Red Edge Joint Ventures",
+  "NBI-Projects-Glencore-Collinsville-CAS"
+];
+
+const TEAMUP = [
+  "Inspections",
+  "NB FS AE Town",
+  "NB Industries",
+  "NB Industries Boardroom",
+  "NB Rental House Calendar",
+  "NB Rural View Workshop",
+  "Paget Workshop",
+  "Welcome Calendar"
+];
+
+const GITHUB_PAT    = 'YOUR_GITHUB_PAT_HERE';
+const GITHUB_OWNER  = 'ringer71';
+const GITHUB_REPO   = 'Freshservice-Support-';
+
+// ── STATE ─────────────────────────────────────────────────────────────
+let currentStep = 1;
+const teamsState  = {};
+const teamupState = {};
+
+// ── RENDER LISTS ──────────────────────────────────────────────────────
+function renderList(containerId, data, state, filteredData) {
+  const el = document.getElementById(containerId);
+  const items = filteredData || data;
+  if (!items.length) { el.innerHTML = '<div class="no-items">No results found.</div>'; return; }
+  el.innerHTML = items.map(name => {
+    const sel = !!state[name];
+    const acc = state[name] || 'rw';
+    return `
+      <div class="item-row ${sel ? 'selected' : ''}" onclick="toggleItem('${containerId}','${name}')">
+        <input type="checkbox" ${sel ? 'checked' : ''} onclick="event.stopPropagation();toggleItem('${containerId}','${name}')">
+        <span class="item-name">${name}</span>
+        <div class="access-toggle">
+          <button class="tog ${acc==='rw'?'rw':''}" onclick="event.stopPropagation();setAccess('${containerId}','${name}','rw')">R/W</button>
+          <button class="tog ${acc==='ro'?'ro':''}" onclick="event.stopPropagation();setAccess('${containerId}','${name}','ro')">R/O</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function toggleItem(containerId, name) {
+  const state = containerId === 'teams-list' ? teamsState : teamupState;
+  if (state[name]) delete state[name]; else state[name] = 'rw';
+  refreshList(containerId);
+  updateSummary(containerId);
+}
+
+function setAccess(containerId, name, level) {
+  const state = containerId === 'teams-list' ? teamsState : teamupState;
+  if (!state[name]) return;
+  state[name] = level;
+  refreshList(containerId);
+  updateSummary(containerId);
+}
+
+function refreshList(containerId) {
+  if (containerId === 'teams-list') {
+    const q = document.getElementById('teams-search').value.toLowerCase();
+    const filtered = TEAMS.filter(t => t.toLowerCase().includes(q));
+    renderList('teams-list', TEAMS, teamsState, filtered);
+  } else {
+    renderList('teamup-list', TEAMUP, teamupState);
+  }
+}
+
+function filterTeams() { refreshList('teams-list'); }
+
+function updateSummary(containerId) {
+  const isTeams = containerId === 'teams-list';
+  const state = isTeams ? teamsState : teamupState;
+  const summaryId = isTeams ? 'teams-summary' : 'teamup-summary';
+  const countId = isTeams ? 'teams-count' : 'teamup-count';
+  const entries = Object.entries(state);
+  document.getElementById(countId).textContent = entries.length;
+  const box = document.getElementById(summaryId);
+  if (!entries.length) { box.innerHTML = '<span>No ' + (isTeams ? 'teams' : 'calendars') + ' selected yet.</span>'; return; }
+  box.innerHTML = entries.map(([name, level]) =>
+    `<span class="tag ${level}">${name} <span class="tag-remove" onclick="removeTag('${containerId}','${name}')">×</span></span>`
+  ).join('');
+}
+
+function removeTag(containerId, name) {
+  const state = containerId === 'teams-list' ? teamsState : teamupState;
+  delete state[name];
+  refreshList(containerId);
+  updateSummary(containerId);
+}
+
+// ── STEP NAVIGATION ───────────────────────────────────────────────────
+const STEPS = 4;
+
+function updateUI() {
+  document.getElementById('progressFill').style.width = (currentStep / STEPS * 100) + '%';
+  for (let i = 1; i <= STEPS; i++) {
+    const tab = document.getElementById('tab-' + i);
+    const panel = document.getElementById('step-' + i);
+    tab.className = 'step-tab' + (i === currentStep ? ' active' : i < currentStep ? ' done' : '');
+    if (panel) panel.className = 'panel' + (i === currentStep ? ' active' : '');
+    // update step num inner
+    const num = tab.querySelector('.step-num');
+    num.textContent = i < currentStep ? '✓' : i;
+  }
+  document.getElementById('btn-back').style.display = currentStep > 1 ? 'flex' : 'none';
+  document.getElementById('btn-next').style.display = currentStep < STEPS ? 'flex' : 'none';
+  document.getElementById('btn-submit').style.display = currentStep === STEPS ? 'flex' : 'none';
+  if (currentStep === STEPS) buildReview();
+}
+
+function validateStep1() {
+  const fields = ['fullName','personalEmail','jobTitle','workEmail','department','workLocation','startDate','managerName'];
+  let valid = true;
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    const err = document.getElementById('err-' + id);
+    if (!el.value.trim()) {
+      el.classList.add('invalid');
+      if (err) err.textContent = 'This field is required.';
+      valid = false;
+    } else {
+      el.classList.remove('invalid');
+      if (err) err.textContent = '';
+    }
+  });
+  return valid;
+}
+
+function nextStep() {
+  if (currentStep === 1 && !validateStep1()) return;
+  if (currentStep < STEPS) { currentStep++; updateUI(); window.scrollTo(0,0); }
+}
+
+function prevStep() {
+  if (currentStep > 1) { currentStep--; updateUI(); window.scrollTo(0,0); }
+}
+
+// ── REVIEW ────────────────────────────────────────────────────────────
+function buildReview() {
+  const teamsEntries  = Object.entries(teamsState);
+  const teamupEntries = Object.entries(teamupState);
+
+  const row = (label, val) => `
+    <div style="display:flex;gap:12px;padding:8px 0;border-bottom:1px solid #f3f5f9;">
+      <div style="width:160px;font-size:12px;font-weight:600;color:var(--muted);flex-shrink:0">${label}</div>
+      <div style="font-size:13px;color:var(--text)">${val || '—'}</div>
+    </div>`;
+
+  const tagList = entries => entries.length
+    ? entries.map(([n,l]) => `<span class="tag ${l}" style="margin:2px">${n} (${l.toUpperCase()})</span>`).join('')
+    : '<span style="color:var(--muted);font-size:12px">None selected</span>';
+
+  document.getElementById('review-content').innerHTML = `
+    <div class="section-label">👤 Employee Details</div>
+    ${row('Full Name', document.getElementById('fullName').value)}
+    ${row('Personal Email', document.getElementById('personalEmail').value)}
+    ${row('Work Email', document.getElementById('workEmail').value)}
+    ${row('Job Title', document.getElementById('jobTitle').value)}
+    ${row('Department', document.getElementById('department').value)}
+    ${row('Work Location', document.getElementById('workLocation').value)}
+    ${row('Start Date', document.getElementById('startDate').value)}
+    ${row('Manager', document.getElementById('managerName').value)}
+    <div class="divider"></div>
+    <div class="section-label" style="margin-top:16px">🔷 Teams Access (${teamsEntries.length})</div>
+    <div style="padding:10px 0;display:flex;flex-wrap:wrap;gap:4px">${tagList(teamsEntries)}</div>
+    <div class="divider"></div>
+    <div class="section-label" style="margin-top:16px">📅 TeamUp Calendars (${teamupEntries.length})</div>
+    <div style="padding:10px 0;display:flex;flex-wrap:wrap;gap:4px">${tagList(teamupEntries)}</div>
+  `;
+}
+
+// ── SUBMIT ────────────────────────────────────────────────────────────
+async function submitForm() {
+  const btn = document.getElementById('btn-submit');
+  const spinner = document.getElementById('submit-spinner');
+  const text = document.getElementById('submit-text');
+  btn.disabled = true;
+  spinner.style.display = 'block';
+  text.textContent = 'Submitting...';
+
+  const payload = {
+    fullName:      document.getElementById('fullName').value,
+    personalEmail: document.getElementById('personalEmail').value,
+    workEmail:     document.getElementById('workEmail').value,
+    jobTitle:      document.getElementById('jobTitle').value,
+    department:    document.getElementById('department').value,
+    workLocation:  document.getElementById('workLocation').value,
+    startDate:     document.getElementById('startDate').value,
+    managerName:   document.getElementById('managerName').value,
+    teamsAccess:   Object.entries(teamsState).map(([name,level]) => `${name} (${level.toUpperCase()})`).join(', '),
+    teamupAccess:  Object.entries(teamupState).map(([name,level]) => `${name} (${level.toUpperCase()})`).join(', ')
+  };
+
+  try {
+    const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/dispatches`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/vnd.github.v3+json',
+        'Authorization': `token ${GITHUB_PAT}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        event_type: 'new-onboarding',
+        client_payload: payload
+      })
+    });
+
+    if (res.status === 204) {
+      document.querySelector('.main > .panel.active').style.display = 'none';
+      document.getElementById('nav-row').style.display = 'none';
+      document.getElementById('success-screen').classList.add('show');
+      document.getElementById('progressFill').style.width = '100%';
+    } else {
+      throw new Error('GitHub dispatch failed: ' + res.status);
+    }
+  } catch (err) {
+    alert('Submission failed. Please try again or contact IT.\n\n' + err.message);
+    btn.disabled = false;
+    spinner.style.display = 'none';
+    text.textContent = 'Submit to IT';
+  }
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────
+renderList('teams-list', TEAMS, teamsState);
+renderList('teamup-list', TEAMUP, teamupState);
+updateUI();
+</script>
+</body>
+</html>
