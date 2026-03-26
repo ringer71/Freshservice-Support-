@@ -176,7 +176,7 @@
         <div class="field"><label>Full Name <span class="req">*</span></label><input type="text" id="fullName" placeholder="e.g. Sarah Johnson"><div class="field-error" id="err-fullName"></div></div>
         <div class="field"><label>Personal Email <span class="req">*</span></label><input type="email" id="personalEmail" placeholder="personal@email.com"><div class="field-error" id="err-personalEmail"></div></div>
         <div class="field"><label>Job Title <span class="req">*</span></label><input type="text" id="jobTitle" placeholder="e.g. Auto Electrician"><div class="field-error" id="err-jobTitle"></div></div>
-        <div class="field"><label>Work Email to be Assigned <span class="req">*</span></label><input type="email" id="workEmail" placeholder="firstname.lastname@nbindustries.com.au"><div class="field-error" id="err-workEmail"></div></div>
+        <div class="field"><label>Work Email to be Assigned <span class="req">*</span></label><input type="email" id="workEmail" placeholder="e.g. workshop.lead@nbindustries.com.au"><div class="field-error" id="err-workEmail"></div></div>
         <div class="field"><label>Department <span class="req">*</span></label>
           <select id="department">
             <option value="">— Select —</option>
@@ -339,11 +339,7 @@
 </div>
 
 <script>
-// ⬇️ PASTE YOUR TOKEN BETWEEN THE QUOTES BELOW — NOTHING ELSE, JUST THE TOKEN
-const GITHUB_PAT   = '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';
-// ⬆️ Example: const GITHUB_PAT = 'github_pat_onlyfortest';
-const GITHUB_OWNER = 'ringer71';
-const GITHUB_REPO  = 'Freshservice-Support-';
+const WEBHOOK_URL  = 'https://eobl58l025xbusn.m.pipedream.net';
 const TOTAL_STEPS  = 5;
 
 const TEAMS = ["Auto Electrical Workshop","Business Process Analysis","Comms Training","Customer Contacts","Customers","Department Goals","Fire Warden & Evacuation","FORMS- General Employee/Employer Forms","Marketing Folder for NB Products and Services","Master BOM Data","Mechanical Workshop","NB - Suppliers","NB Finance","NB HR-Payroll","NB Industries Intranet","NB Industries Leadership Team","NB Office Staff Leave","NB Parts Team","NB Radio Communications","NB Sales Team","NB Tech Products and Suppliers","NB Warehouse Team","NB Website Collaboration","NBI Customer Relationship Management (CRM)","NBI Recruitment","NBI SLT","NBI-Projects-Glencore-Collinsville-CAS","QME - NB Industries","Spare Parts - General","Spare Parts Processes and Improvements","Training and Inductions","Workshop communication"];
@@ -531,12 +527,12 @@ async function submitForm() {
     teamupAccess: fmt('teamup')
   };
   try {
-    const res = await fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/dispatches`, {
+    const res = await fetch(WEBHOOK_URL, {
       method:'POST',
-      headers:{'Accept':'application/vnd.github.v3+json','Authorization':`token ${GITHUB_PAT}`,'Content-Type':'application/json'},
-      body: JSON.stringify({event_type:'new-onboarding',client_payload:payload})
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
     });
-    if (res.status===204) {
+    if (res.ok) {
       document.querySelectorAll('.panel.active').forEach(p=>p.style.display='none');
       document.getElementById('nav-row').style.display='none';
       document.getElementById('success-screen').classList.add('show');
