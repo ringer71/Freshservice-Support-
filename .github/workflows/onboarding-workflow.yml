@@ -1,0 +1,43 @@
+name: Create Onboarding Ticket in Freshservice
+
+on:
+  repository_dispatch:
+    types: [new-onboarding]
+
+jobs:
+  create-ticket:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build and submit Freshservice ticket
+        run: |
+          PAYLOAD='${{ toJson(github.event.client_payload) }}'
+
+          FULL_NAME=$(echo $PAYLOAD | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['fullName'])")
+          START_DATE=$(echo $PAYLOAD | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['startDate'])")
+
+          DESCRIPTION="<b>New Employee Onboarding Request</b><br><br>
+          <b>Full Name:</b> $(echo $PAYLOAD | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['fullName'])")<br>
+          <b>Personal Email:</b> $(echo $PAYLOAD | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['personalEmail'])")<br>
+          <b>Work Email:</b> $(echo $PAYLOAD | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['workEmail'])")<br>
+          <b>Job Title:</b> $(echo $PAYLOAD | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['jobTitle'])")<br>
+          <b>Department:</b> $(echo $PAYLOAD | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['department'])")<br>
+          <b>Work Location:</b> $(echo $PAYLOAD | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['workLocation'])")<br>
+          <b>Start Date:</b> $START_DATE<br>
+          <b>Manager:</b> $(echo $PAYLOAD | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['managerName'])")<br><br>
+          <b>Teams Access Required:</b><br>$(echo $PAYLOAD | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['teamsAccess'])")<br><br>
+          <b>TeamUp Calendar Access Required:</b><br>$(echo $PAYLOAD | python3 -c "import sys,json; d=json.load(sys.stdin); print(d['teamupAccess'])")"
+
+          curl -s -X POST \
+            -H "Content-Type: application/json" \
+            -u "${{ secrets.FRESHSERVICE_API_KEY }}:X" \
+            "https://nbi.freshservice.com/api/v2/tickets" \
+            -d "{
+              \"subject\": \"New Employee Onboarding - ${FULL_NAME} (Start: ${START_DATE})\",
+              \"description\": \"${DESCRIPTION}\",
+              \"email\": \"it@nbindustries.com.au\",
+              \"priority\": 2,
+              \"status\": 2,
+              \"type\": \"Service Request\",
+              \"tags\": [\"onboarding\", \"new-employee\"]
+            }"
