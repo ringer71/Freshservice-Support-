@@ -505,7 +505,7 @@ function buildReview() {
 async function submitForm() {
   const btn=document.getElementById('btn-submit'), spinner=document.getElementById('submit-spinner'), text=document.getElementById('submit-text');
   btn.disabled=true; spinner.style.display='block'; text.textContent='Submitting...';
-  const fmt = (key) => Object.entries(sel[key]).map(([n,l])=>`${n} (${l.toUpperCase()})`).join(', ')||'None';
+  const fmt = (key) => Object.entries(sel[key]).map(([n,l])=>`${n} (${l==='rw'?'Read/Write':'Read Only'})`).join('<br>')||'None';
   const payload = {
     fullName: document.getElementById('fullName').value,
     personalEmail: document.getElementById('personalEmail').value,
