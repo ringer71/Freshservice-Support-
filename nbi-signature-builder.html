@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NBI Email Signature Builder</title>
+<style>
+  :root {
+    --navy: #1C2235;
+    --amber: #D4840F;
+    --light-grey: #F5F5F2;
+    --mid-grey: #B2D8EC;
+    --border: #E0E0E5;
+    --text: #1C2235;
+    --text-muted: #5A5F6E;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--light-grey);
+    color: var(--text);
+    line-height: 1.5;
+    min-height: 100vh;
+    padding: 24px;
+  }
+
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .page-header {
+    background: var(--navy);
+    color: white;
+    padding: 28px 36px;
+    border-radius: 4px 4px 0 0;
+    border-bottom: 4px solid var(--amber);
+  }
+
+  .page-header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  .page-header p {
+    font-size: 14px;
+    opacity: 0.85;
+    font-weight: 300;
+  }
+
+  /* Layout */
+  .layout {
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 0;
+    background: white;
+    border-radius: 0 0 4px 4px;
+    border: 1px solid var(--border);
+    border-top: none;
+    overflow: hidden;
+    min-height: 600px;
+  }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+  }
+
+  /* Form panel */
+  .form-panel {
+    padding: 32px;
+    border-right: 1px solid var(--border);
+    background: white;
+  }
+
+  .form-panel h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--amber);
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+
+  .field-group {
+    margin-bottom: 20px;
+  }
+
+  label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  label .required {
+    color: var(--amber);
+    margin-left: 2px;
+  }
+
+  label .optional {
+    color: var(--text-muted);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 11px;
+    margin-left: 4px;
+  }
+
+  input[type="text"], input[type="email"], input[type="tel"] {
+    width: 100%;
+    padding: 10px 12px;
+    font-family: inherit;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: white;
+    color: var(--text);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: var(--navy);
+    box-shadow: 0 0 0 3px rgba(28, 34, 53, 0.08);
+  }
+
+  input.error {
+    border-color: #C0392B;
+  }
+
+  .error-msg {
+    font-size: 12px;
+    color: #C0392B;
+    margin-top: 4px;
+    display: none;
+  }
+
+  .error-msg.show { display: block; }
+
+  /* Buttons */
+  .actions {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  button {
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 20px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-primary {
+    background: var(--amber);
+    color: white;
+  }
+
+  .btn-primary:hover { background: #B8730D; }
+  .btn-primary:disabled { background: #CCC; cursor: not-allowed; }
+
+  .btn-secondary {
+    background: white;
+    color: var(--navy);
+    border: 1px solid var(--border);
+  }
+
+  .btn-secondary:hover { background: var(--light-grey); }
+
+  /* Preview panel */
+  .preview-panel {
+    padding: 32px;
+    background: var(--light-grey);
+    overflow-x: auto;
+  }
+
+  .preview-panel h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--amber);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .preview-panel .preview-note {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+
+  .preview-frame {
+    background: white;
+    padding: 32px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    min-height: 400px;
+  }
+
+  /* Status / instructions */
+  .instructions {
+    margin-top: 24px;
+    background: white;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--amber);
+    padding: 20px 24px;
+    border-radius: 3px;
+  }
+
+  .instructions h3 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--navy);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  .instructions ol {
+    margin-left: 20px;
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .instructions ol li {
+    margin-bottom: 6px;
+  }
+
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--navy);
+    color: white;
+    padding: 14px 20px;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 600;
+    border-left: 4px solid var(--amber);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: translateX(150%);
+    transition: transform 0.3s ease-out;
+    z-index: 1000;
+  }
+
+  .toast.show { transform: translateX(0); }
+
+  /* Footer */
+  .footer {
+    margin-top: 24px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  .footer strong { color: var(--navy); }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="page-header">
+    <h1>NBI Email Signature Builder</h1>
+    <p>Generate your standard NB Industries email signature for upload into NetSuite.</p>
+  </header>
+
+  <div class="layout">
+
+    <!-- FORM PANEL -->
+    <div class="form-panel">
+      <h2>Your Details</h2>
+
+      <div class="field-group">
+        <label for="fullName">Full Name <span class="required">*</span></label>
+        <input type="text" id="fullName" placeholder="e.g. Anel Sweeney" autocomplete="name">
+        <div class="error-msg" id="err-fullName">Please enter your full name.</div>
+      </div>
+
+      <div class="field-group">
+        <label for="jobTitle">Job Title <span class="required">*</span></label>
+        <input type="text" id="jobTitle" placeholder="e.g. Management Accountant" autocomplete="organization-title">
+        <div class="error-msg" id="err-jobTitle">Please enter your job title.</div>
+      </div>
+
+      <div class="field-group">
+        <label for="email">Email Address <span class="required">*</span></label>
+        <input type="email" id="email" placeholder="e.g. anel.sweeney@nbindustries.com.au" autocomplete="email">
+        <div class="error-msg" id="err-email">Please enter a valid NBI email address.</div>
+      </div>
+
+      <div class="field-group">
+        <label for="mobile">Mobile <span class="optional">(optional)</span></label>
+        <input type="tel" id="mobile" placeholder="e.g. 0448 175 663" autocomplete="tel">
+      </div>
+
+      <div class="field-group">
+        <label for="office">Office Phone <span class="optional">(optional)</span></label>
+        <input type="tel" id="office" value="07 4952 3931" autocomplete="tel">
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn-primary" id="btnDownload">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download HTML Signature
+        </button>
+        <button type="button" class="btn-secondary" id="btnCopy">Copy HTML to Clipboard</button>
+      </div>
+    </div>
+
+    <!-- PREVIEW PANEL -->
+    <div class="preview-panel">
+      <h2>Live Preview</h2>
+      <p class="preview-note">This is exactly how your signature will appear on outgoing emails.</p>
+      <div class="preview-frame" id="preview"></div>
+
+      <div class="instructions">
+        <h3>How to Upload to NetSuite</h3>
+        <ol>
+          <li>Click <strong>Download HTML Signature</strong>. A file named <em>nbi-signature.html</em> will save to your Downloads folder.</li>
+          <li>In NetSuite, go to <strong>Home &rarr; Set Preferences &rarr; General</strong>.</li>
+          <li>Scroll to the <strong>Signature</strong> section and tick <em>Use Signature</em>.</li>
+          <li>Open the downloaded HTML file in Notepad (Windows) or TextEdit (Mac), select all, copy, and paste into the NetSuite signature box.</li>
+          <li>Save preferences. Send a test email to yourself to confirm.</li>
+        </ol>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="footer">
+    <strong>NB Industries</strong> &middot; ICT Governance &middot; If you need help, raise a ticket via Freshservice.
+  </p>
+
+</div>
+
+<div class="toast" id="toast">Signature copied to clipboard</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ============ Configuration ============
+  const ASSET_BASE = 'https://nbindustries.com.au/signature';
+  const DEFAULT_OFFICE = '07 4952 3931';
+  const DEFAULT_PO_BOX = 'PO Box 7138, Mackay Mail Centre, QLD, 4741';
+  const TAGLINE = 'From the Ground Up';
+
+  // ============ Elements ============
+  const $ = (id) => document.getElementById(id);
+  const fields = {
+    fullName: $('fullName'),
+    jobTitle: $('jobTitle'),
+    email:    $('email'),
+    mobile:   $('mobile'),
+    office:   $('office')
+  };
+  const preview = $('preview');
+  const toast = $('toast');
+
+  // ============ Helpers ============
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function escapeAttr(str) {
+    return escapeHtml(str);
+  }
+
+  function digitsOnly(str) {
+    return (str || '').replace(/\D/g, '');
+  }
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2400);
+  }
+
+  // ============ Validation ============
+  function validate() {
+    let valid = true;
+
+    function check(name, condition) {
+      const input = fields[name];
+      const err = document.getElementById('err-' + name);
+      if (condition) {
+        input.classList.remove('error');
+        err.classList.remove('show');
+      } else {
+        input.classList.add('error');
+        err.classList.add('show');
+        valid = false;
+      }
+    }
+
+    check('fullName', fields.fullName.value.trim().length > 1);
+    check('jobTitle', fields.jobTitle.value.trim().length > 1);
+    const emailVal = fields.email.value.trim();
+    check('email', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal));
+    return valid;
+  }
+
+  // ============ Signature builder ============
+  // Mirrors Anel's signature structure exactly so output stays consistent
+  // across all NBI staff. Inline CSS only - email clients strip <style>.
+  function buildSignature() {
+    const name    = escapeHtml(fields.fullName.value.trim());
+    const title   = escapeHtml(fields.jobTitle.value.trim());
+    const email   = escapeHtml(fields.email.value.trim());
+    const mobile  = escapeHtml(fields.mobile.value.trim());
+    const office  = escapeHtml(fields.office.value.trim() || DEFAULT_OFFICE);
+
+    const mobileDigits = digitsOnly(fields.mobile.value);
+    const officeDigits = digitsOnly(fields.office.value || DEFAULT_OFFICE);
+
+    const arrow = `<img src="${ASSET_BASE}/arrow.png" width="8" height="12" alt="" style="border:0;vertical-align:middle">`;
+
+    // Phone block - shown only if a number is provided
+    let mobileLine = '';
+    if (mobile) {
+      mobileLine = `<p style="margin:0;font-size:10pt">${arrow} <a href="tel:${mobileDigits}" style="color:#000;text-decoration:none">${mobile}</a></p>`;
+    }
+    let officeLine = '';
+    if (office) {
+      officeLine = `<p style="margin:${mobile ? '4px 0 0' : '0'};font-size:10pt">${arrow} <a href="tel:${officeDigits}" style="color:#19262E;text-decoration:none">${office}</a></p>`;
+    }
+
+    // Build the signature - keep formatting tight and inline-styled
+    return `<table border="0" cellspacing="0" cellpadding="0" width="538" style="font-family:Arial,sans-serif">
+<tr><td>
+<p style="margin:0"><b><span style="font-size:16pt">${name}</span></b></p>
+<p style="margin:0"><span style="font-size:12pt">${title}</span></p>
+<p style="margin:0">&nbsp;</p>
+<table border="0" cellspacing="0" cellpadding="0" width="538"><tr><td style="background:#B2D8EC;height:1px"></td></tr></table>
+<p style="margin:0">&nbsp;</p>
+<table border="0" cellspacing="0" cellpadding="0"><tr>
+<td valign="top" style="padding-right:20px">
+${mobileLine}
+${officeLine}
+</td>
+<td valign="top">
+<p style="margin:0;font-size:10pt">${arrow} ${escapeHtml(DEFAULT_PO_BOX)}</p>
+<p style="margin:4px 0 0;font-size:10pt">${arrow} <a href="mailto:${email}" style="color:#000;text-decoration:none">${email}</a></p>
+</td>
+</tr></table>
+<p style="margin:0">&nbsp;</p>
+<table border="0" cellspacing="0" cellpadding="0" width="538"><tr><td style="background:#B2D8EC;height:1px"></td></tr></table>
+<p style="margin:0">&nbsp;</p>
+<table border="0" cellspacing="0" cellpadding="0" width="538"><tr>
+<td><a href="https://nbindustries.com.au/" style="color:#19262E;text-decoration:none;font-size:10pt">nbindustries.com.au</a></td>
+<td align="right">
+<a href="https://www.facebook.com/NBIndustries.com.au/" target="_blank"><img src="${ASSET_BASE}/fb.png" width="19" height="20" border="0" alt="Facebook"></a>&nbsp;
+<a href="https://www.instagram.com/nbindustries/" target="_blank"><img src="${ASSET_BASE}/instagram.png" width="22" height="22" border="0" alt="Instagram"></a>&nbsp;
+<a href="https://www.linkedin.com/company/nbindustries/" target="_blank"><img src="${ASSET_BASE}/linkedin.png" width="20" height="20" border="0" alt="LinkedIn"></a>
+</td>
+</tr></table>
+<p style="margin:0">&nbsp;</p>
+<table border="0" cellspacing="0" cellpadding="0" width="538"><tr><td style="background:#B2D8EC;height:1px"></td></tr></table>
+<p style="margin:0">&nbsp;</p>
+<table border="0" cellspacing="0" cellpadding="0" width="538"><tr>
+<td><img src="${ASSET_BASE}/nbindustries.png" width="200" height="32" alt="NB INDUSTRIES"></td>
+<td align="right"><b><span style="font-size:12pt">${TAGLINE}</span></b></td>
+</tr></table>
+<p style="margin:0">&nbsp;</p>
+<img src="${ASSET_BASE}/group.png" width="538" height="87" border="0" alt="">
+<p style="margin:8px 0 0;font-size:7pt;color:#666">The content of this email is confidential and intended for the recipient specified in message only. It is strictly forbidden to share any part of this message with any third party, without written consent of the sender. If you received this message by mistake, please reply to this message and allow its deletion.</p>
+</td></tr>
+</table>`;
+  }
+
+  // ============ Preview ============
+  function updatePreview() {
+    // Use placeholders for live preview when fields are empty - shows what the signature WILL look like
+    const placeholders = {
+      fullName: 'Your Name',
+      jobTitle: 'Your Job Title',
+      email:    'firstname.lastname@nbindustries.com.au',
+      mobile:   '',
+      office:   DEFAULT_OFFICE
+    };
+
+    const original = {};
+    for (const k in fields) {
+      original[k] = fields[k].value;
+      if (!fields[k].value.trim()) {
+        fields[k].value = placeholders[k];
+      }
+    }
+
+    preview.innerHTML = buildSignature();
+
+    for (const k in fields) {
+      fields[k].value = original[k];
+    }
+  }
+
+  // ============ Download ============
+  function download() {
+    if (!validate()) {
+      showToast('Please fill in all required fields');
+      return;
+    }
+    const html = buildSignature();
+    // Wrap in minimal HTML doc so the file is portable / openable in any browser or text editor
+    const doc = `<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>NBI Email Signature - ${escapeHtml(fields.fullName.value.trim())}</title></head>
+<body>
+${html}
+</body></html>`;
+
+    const blob = new Blob([doc], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'nbi-signature.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('Signature downloaded');
+  }
+
+  // ============ Copy ============
+  async function copyToClipboard() {
+    if (!validate()) {
+      showToast('Please fill in all required fields');
+      return;
+    }
+    const html = buildSignature();
+    try {
+      await navigator.clipboard.writeText(html);
+      showToast('HTML copied to clipboard');
+    } catch (e) {
+      // Fallback for older browsers
+      const ta = document.createElement('textarea');
+      ta.value = html;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try {
+        document.execCommand('copy');
+        showToast('HTML copied to clipboard');
+      } catch (err) {
+        showToast('Copy failed - please use Download instead');
+      }
+      document.body.removeChild(ta);
+    }
+  }
+
+  // ============ Wire it up ============
+  Object.values(fields).forEach(input => {
+    input.addEventListener('input', updatePreview);
+    input.addEventListener('blur', () => {
+      if (input.value.trim()) input.classList.remove('error');
+    });
+  });
+
+  $('btnDownload').addEventListener('click', download);
+  $('btnCopy').addEventListener('click', copyToClipboard);
+
+  // Initial render
+  updatePreview();
+})();
+</script>
+</body>
+</html>
