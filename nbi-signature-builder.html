@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NB Industries Email Signature Builder</title>
+  <style>
+    :root {
+      --navy: #19262E;
+      --light-blue: #B2D8EC;
+      --amber: #D4A847;
+      --bg: #F5F5F5;
+      --white: #FFFFFF;
+      --gray-light: #E0E0E0;
+      --gray-mid: #777;
+      --warn: #C0392B;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Aptos', 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--navy);
+    }
+    header {
+      background: var(--navy);
+      color: var(--white);
+      padding: 20px 32px;
+      border-bottom: 4px solid var(--amber);
+    }
+    header h1 { margin: 0; font-size: 20px; }
+    header p { margin: 4px 0 0; font-size: 13px; opacity: 0.8; }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 32px;
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 24px;
+    }
+    @media (max-width: 900px) {
+      .container { grid-template-columns: 1fr; padding: 16px; }
+    }
+    .panel {
+      background: var(--white);
+      border-radius: 6px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+    .panel h2 {
+      margin: 0 0 16px;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--navy);
+      border-bottom: 2px solid var(--amber);
+      padding-bottom: 8px;
+    }
+    .field { margin-bottom: 16px; }
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .field label .required { color: var(--warn); }
+    .field input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--gray-light);
+      border-radius: 4px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    .field input:focus {
+      outline: none;
+      border-color: var(--amber);
+      box-shadow: 0 0 0 2px rgba(212, 168, 71, 0.2);
+    }
+    .field .hint {
+      font-size: 12px;
+      color: var(--gray-mid);
+      margin-top: 4px;
+    }
+    .preview-box {
+      border: 1px solid var(--gray-light);
+      padding: 24px;
+      background: white;
+      min-height: 200px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    .output-area textarea {
+      width: 100%;
+      min-height: 180px;
+      padding: 12px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 11px;
+      line-height: 1.4;
+      border: 1px solid var(--gray-light);
+      border-radius: 4px;
+      resize: vertical;
+      background: #FAFAFA;
+    }
+    .char-count {
+      font-size: 12px;
+      color: var(--gray-mid);
+      margin-top: 4px;
+      text-align: right;
+    }
+    .char-count.warn { color: var(--warn); font-weight: 600; }
+    .button-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      flex-wrap: wrap;
+    }
+    button {
+      background: var(--navy);
+      color: var(--white);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    button:hover { background: #2A3A45; }
+    button.secondary {
+      background: var(--white);
+      color: var(--navy);
+      border: 1px solid var(--navy);
+    }
+    button.secondary:hover { background: var(--bg); }
+    button.amber {
+      background: var(--amber);
+      color: var(--navy);
+    }
+    button.amber:hover { background: #B8902F; color: var(--white); }
+    .instructions {
+      background: #FFF8E7;
+      border-left: 4px solid var(--amber);
+      padding: 12px 16px;
+      margin-top: 16px;
+      font-size: 13px;
+      border-radius: 4px;
+    }
+    .instructions h3 { margin: 0 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.3px; }
+    .instructions ol { margin: 6px 0; padding-left: 20px; }
+    .instructions li { margin-bottom: 4px; }
+    .toast {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      background: var(--navy);
+      color: var(--white);
+      padding: 12px 20px;
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>NB Industries Email Signature Builder</h1>
+    <p>Generate your standardised email signature for NetSuite, Outlook, and other email clients</p>
+  </header>
+
+  <div class="container">
+    <div class="panel">
+      <h2>Your Details</h2>
+      <div class="field">
+        <label>Full Name <span class="required">*</span></label>
+        <input type="text" id="fullName" placeholder="e.g. Bradley Houghton" oninput="updateSignature()">
+      </div>
+      <div class="field">
+        <label>Job Title <span class="required">*</span></label>
+        <input type="text" id="jobTitle" placeholder="e.g. ICT & Systems Engineer" oninput="updateSignature()">
+      </div>
+      <div class="field">
+        <label>Mobile</label>
+        <input type="text" id="mobile" placeholder="e.g. 0438 399 640" oninput="updateSignature()">
+        <div class="hint">Leave blank if you don't have a work mobile</div>
+      </div>
+      <div class="field">
+        <label>Office</label>
+        <input type="text" id="office" value="07 4952 3931" oninput="updateSignature()">
+      </div>
+      <div class="field">
+        <label>Email <span class="required">*</span></label>
+        <input type="email" id="email" placeholder="firstname.lastname@nbindustries.com.au" oninput="updateSignature()">
+      </div>
+
+      <div class="instructions">
+        <h3>📋 Paste into NetSuite</h3>
+        <ol>
+          <li>Fill the form, then click <b>Copy HTML</b></li>
+          <li>NetSuite → <b>Home → Set Preferences → General</b></li>
+          <li>Select-all in the Signature field, delete, then paste</li>
+          <li>Tick <b>Add Signature to Messages</b></li>
+          <li>Click <b>Save</b></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Live Preview</h2>
+      <div class="preview-box" id="preview">
+        <em style="color: #999;">Fill out the form to see your signature preview...</em>
+      </div>
+
+      <h2 style="margin-top: 24px;">Generated HTML</h2>
+      <div class="output-area">
+        <textarea id="output" readonly></textarea>
+        <div class="char-count"><span id="charCount">0</span> / 4000 characters (NetSuite limit)</div>
+      </div>
+
+      <div class="button-row">
+        <button onclick="copyHTML()" class="amber">📋 Copy HTML</button>
+        <button onclick="downloadHTML()" class="secondary">💾 Download .html</button>
+        <button onclick="resetForm()" class="secondary">↺ Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">✓ HTML copied to clipboard</div>
+
+  <script>
+    function escapeHtml(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function generateSignature() {
+      const fullName = escapeHtml(document.getElementById('fullName').value.trim()) || '[Your Name]';
+      const jobTitle = escapeHtml(document.getElementById('jobTitle').value.trim()) || '[Your Title]';
+      const mobile = document.getElementById('mobile').value.trim();
+      const office = document.getElementById('office').value.trim();
+      const email = document.getElementById('email').value.trim() || 'firstname.lastname@nbindustries.com.au';
+
+      let phoneCell = '';
+      if (mobile) {
+        const tel = mobile.replace(/\s+/g, '');
+        phoneCell += `&rsaquo;&nbsp;&nbsp;<a href="tel:${tel}" style="color:#19262E;text-decoration:none;">${escapeHtml(mobile)}</a>`;
+      }
+      if (office) {
+        const tel = office.replace(/\s+/g, '');
+        if (phoneCell) phoneCell += '<br>';
+        phoneCell += `&rsaquo;&nbsp;&nbsp;<a href="tel:${tel}" style="color:#19262E;text-decoration:none;">${escapeHtml(office)}</a>`;
+      }
+      if (!phoneCell) phoneCell = '&nbsp;';
+
+      return `<table cellpadding="0" cellspacing="0" border="0" width="538" style="font-family:Aptos,Arial,sans-serif;color:#19262E;border-collapse:collapse;">
+<tr><td>
+<p style="margin:0;line-height:19.5pt;"><b style="font-size:16.5pt;">${fullName}</b></p>
+<p style="margin:0;font-size:15pt;">${jobTitle}</p>
+</td></tr>
+<tr><td height="20"></td></tr>
+<tr><td bgcolor="#B2D8EC" height="1" style="font-size:1px;line-height:1px;">&nbsp;</td></tr>
+<tr><td height="20"></td></tr>
+<tr><td>
+<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
+<td width="150" valign="top" style="font-size:10.5pt;line-height:18pt;color:#19262E;">
+${phoneCell}
+</td>
+<td valign="top" style="font-size:10.5pt;line-height:18pt;color:#19262E;">
+&rsaquo;&nbsp;&nbsp;PO Box 7138, Mackay Mail Centre, QLD, 4741<br>
+&rsaquo;&nbsp;&nbsp;<a href="mailto:${email}" style="color:#19262E;text-decoration:none;">${escapeHtml(email)}</a>
+</td>
+</tr></table>
+</td></tr>
+<tr><td height="20"></td></tr>
+<tr><td bgcolor="#B2D8EC" height="1" style="font-size:1px;line-height:1px;">&nbsp;</td></tr>
+<tr><td height="20"></td></tr>
+<tr><td>
+<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
+<td style="font-size:10.5pt;"><a href="https://nbindustries.com.au" style="color:#19262E;text-decoration:none;">nbindustries.com.au</a></td>
+<td align="right">
+<a href="https://www.facebook.com/NBIndustries.com.au/"><img src="https://nbindustries.com.au/signature/fb.png" width="19" height="20" alt="Facebook" border="0"></a>
+&nbsp;&nbsp;
+<a href="https://www.instagram.com/nbindustries/"><img src="https://nbindustries.com.au/signature/instagram.png" width="22" height="22" alt="Instagram" border="0"></a>
+&nbsp;&nbsp;
+<a href="https://www.linkedin.com/company/nbindustries/"><img src="https://nbindustries.com.au/signature/linkedin.png" width="20" height="20" alt="LinkedIn" border="0"></a>
+</td>
+</tr></table>
+</td></tr>
+<tr><td height="20"></td></tr>
+<tr><td bgcolor="#B2D8EC" height="1" style="font-size:1px;line-height:1px;">&nbsp;</td></tr>
+<tr><td height="20"></td></tr>
+<tr><td>
+<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
+<td><img src="https://nbindustries.com.au/signature/nbindustries.png" width="200" height="32" alt="NB INDUSTRIES" border="0" style="display:block;"></td>
+<td align="right"><b style="font-size:15pt;">From the Ground Up</b></td>
+</tr></table>
+</td></tr>
+<tr><td height="14"></td></tr>
+<tr><td><img src="https://nbindustries.com.au/signature/group.png" width="538" height="87" alt="NB Industries values" border="0" style="display:block;"></td></tr>
+</table>`;
+    }
+
+    function updateSignature() {
+      const html = generateSignature();
+      document.getElementById('preview').innerHTML = html;
+      document.getElementById('output').value = html;
+      const count = html.length;
+      const counter = document.getElementById('charCount');
+      counter.textContent = count;
+      counter.parentElement.classList.toggle('warn', count > 4000);
+    }
+
+    function copyHTML() {
+      const output = document.getElementById('output');
+      output.select();
+      document.execCommand('copy');
+      const toast = document.getElementById('toast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+
+    function downloadHTML() {
+      const html = document.getElementById('output').value;
+      const fullName = document.getElementById('fullName').value.trim().replace(/\s+/g, '_') || 'signature';
+      const fullDoc = `<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>${fullName} Signature</title></head>
+<body style="font-family:Arial,sans-serif;padding:24px;background:#f5f5f5;">
+${html}
+</body></html>`;
+      const blob = new Blob([fullDoc], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${fullName}_signature.html`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function resetForm() {
+      document.getElementById('fullName').value = '';
+      document.getElementById('jobTitle').value = '';
+      document.getElementById('mobile').value = '';
+      document.getElementById('office').value = '07 4952 3931';
+      document.getElementById('email').value = '';
+      updateSignature();
+    }
+
+    updateSignature();
+  </script>
+</body>
+</html>
