@@ -6,143 +6,110 @@
 <title>NB Industries – Outlook Signature Builder</title>
 <style>
 :root {
-  --navy:       #19262E;
-  --light-blue: #B2D8EC;
-  --amber:      #D4A847;
-  --bg:         #F5F5F5;
-  --white:      #FFFFFF;
-  --gray-light: #E0E0E0;
-  --gray-mid:   #777;
-  --warn:       #C0392B;
-  --green:      #2e7d32;
+  --navy:  #19262E;
+  --blue:  #B2D8EC;
+  --amber: #D4A847;
+  --bg:    #F5F5F5;
+  --white: #FFFFFF;
+  --grey:  #E0E0E0;
+  --mid:   #777;
+  --warn:  #C0392B;
+  --green: #2e7d32;
 }
 * { box-sizing: border-box; }
 body {
-  font-family: 'Aptos', 'Segoe UI', Arial, sans-serif;
-  margin: 0; padding: 0;
-  background: var(--bg);
-  color: var(--navy);
+  font-family: 'Aptos','Segoe UI',Arial,sans-serif;
+  margin:0; padding:0; background:var(--bg); color:var(--navy);
 }
 header {
-  background: var(--navy);
-  color: var(--white);
-  padding: 20px 32px;
-  border-bottom: 4px solid var(--amber);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  background:var(--navy); color:var(--white);
+  padding:20px 32px; border-bottom:4px solid var(--amber);
+  display:flex; align-items:center; justify-content:space-between;
 }
-header h1 { margin: 0; font-size: 20px; }
-header p  { margin: 4px 0 0; font-size: 13px; opacity: 0.8; }
+header h1 { margin:0; font-size:20px; }
+header p  { margin:4px 0 0; font-size:13px; opacity:.8; }
 .badge {
-  background: var(--amber); color: var(--navy);
-  font-size: 11px; font-weight: 700;
-  padding: 4px 10px; border-radius: 3px;
-  letter-spacing: 0.5px; text-transform: uppercase;
+  background:var(--amber); color:var(--navy);
+  font-size:11px; font-weight:700; padding:4px 10px;
+  border-radius:3px; letter-spacing:.5px; text-transform:uppercase;
 }
 .container {
-  max-width: 1260px; margin: 0 auto;
-  padding: 24px 32px;
-  display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 24px;
+  max-width:1260px; margin:0 auto; padding:24px 32px;
+  display:grid; grid-template-columns:320px 1fr; gap:24px;
 }
-@media (max-width: 900px) {
-  .container { grid-template-columns: 1fr; padding: 16px; }
-}
+@media(max-width:900px){.container{grid-template-columns:1fr;padding:16px;}}
 .panel {
-  background: var(--white);
-  border-radius: 6px; padding: 24px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  background:var(--white); border-radius:6px; padding:24px;
+  box-shadow:0 1px 3px rgba(0,0,0,.08);
 }
 .panel h2 {
-  margin: 0 0 16px; font-size: 13px;
-  text-transform: uppercase; letter-spacing: 0.5px;
-  color: var(--navy);
-  border-bottom: 2px solid var(--amber);
-  padding-bottom: 8px;
+  margin:0 0 16px; font-size:13px; text-transform:uppercase;
+  letter-spacing:.5px; color:var(--navy);
+  border-bottom:2px solid var(--amber); padding-bottom:8px;
 }
-.field { margin-bottom: 15px; }
-.field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
-.field label .req { color: var(--warn); }
+.field { margin-bottom:15px; }
+.field label { display:block; font-size:13px; font-weight:600; margin-bottom:4px; }
+.field label .req { color:var(--warn); }
 .field input {
-  width: 100%; padding: 9px 11px;
-  border: 1px solid var(--gray-light);
-  border-radius: 4px; font-size: 13px;
-  font-family: inherit; color: var(--navy);
-  transition: border-color 0.15s, box-shadow 0.15s;
+  width:100%; padding:9px 11px; border:1px solid var(--grey);
+  border-radius:4px; font-size:13px; font-family:inherit; color:var(--navy);
+  transition:border-color .15s,box-shadow .15s;
 }
-.field input:focus {
-  outline: none; border-color: var(--amber);
-  box-shadow: 0 0 0 2px rgba(212,168,71,0.2);
+.field input:focus { outline:none; border-color:var(--amber); box-shadow:0 0 0 2px rgba(212,168,71,.2); }
+.field .hint { font-size:11px; color:var(--mid); margin-top:3px; }
+.btn {
+  border:none; border-radius:4px; font-size:13px; font-weight:600;
+  cursor:pointer; font-family:inherit; transition:background .15s;
+  width:100%; padding:13px; margin-top:6px; display:block;
 }
-.field .hint { font-size: 11px; color: var(--gray-mid); margin-top: 3px; }
-button {
-  border: none; padding: 10px 18px; border-radius: 4px;
-  font-size: 13px; font-weight: 600; cursor: pointer;
-  font-family: inherit; transition: background 0.15s;
+.btn-download { background:var(--amber); color:var(--navy); font-size:14px; }
+.btn-download:hover { background:#B8902F; color:#fff; }
+.btn-reset { background:var(--white); color:var(--navy); border:1px solid var(--navy); font-size:13px; margin-top:8px; }
+.btn-reset:hover { background:var(--bg); }
+
+/* Steps */
+.steps {
+  background:#EFF7FB; border-left:4px solid #B2D8EC;
+  padding:14px 16px; margin-top:18px; border-radius:4px; font-size:12.5px; line-height:1.5;
 }
-.btn-primary {
-  background: var(--amber); color: var(--navy);
-  width: 100%; font-size: 14px; padding: 13px; margin-top: 4px;
+.steps strong { display:block; margin-bottom:8px; font-size:12px; text-transform:uppercase; letter-spacing:.3px; color:var(--navy); }
+.step { display:flex; gap:10px; margin-bottom:8px; align-items:flex-start; }
+.step-num {
+  min-width:20px; height:20px; background:var(--navy); color:#fff;
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:10px; font-weight:700; flex-shrink:0; margin-top:1px;
 }
-.btn-primary:hover  { background: #B8902F; color: white; }
-.btn-primary.copied { background: var(--green); color: white; }
-.btn-secondary {
-  background: var(--white); color: var(--navy);
-  border: 1px solid var(--navy); margin-top: 8px; width: 100%;
+.step-text { font-size:12.5px; color:#333; }
+.path-box {
+  background:#1e1e1e; color:#d4d4d4; font-family:'Consolas','Courier New',monospace;
+  font-size:11px; padding:8px 12px; border-radius:4px; margin:6px 0;
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
 }
-.btn-secondary:hover { background: var(--bg); }
-.instructions {
-  background: #FFF8E7; border-left: 4px solid var(--amber);
-  padding: 13px 15px; margin-top: 18px;
-  font-size: 12.5px; border-radius: 4px; line-height: 1.5;
+.path-box span { flex:1; word-break:break-all; }
+.copy-path {
+  background:#444; color:#fff; border:none; border-radius:3px;
+  font-size:10px; padding:3px 8px; cursor:pointer; white-space:nowrap; flex-shrink:0;
 }
-.instructions strong {
-  display: block; margin-bottom: 6px;
-  font-size: 12px; text-transform: uppercase; letter-spacing: 0.3px;
-}
-.instructions ol { margin: 0; padding-left: 18px; }
-.instructions li { margin-bottom: 4px; }
-.instructions .note {
-  margin-top: 9px; font-size: 11.5px; color: var(--gray-mid);
-  border-top: 1px solid #e8d9a0; padding-top: 7px;
-}
+.copy-path:hover { background:#666; }
+.note { margin-top:10px; font-size:11.5px; color:var(--mid); border-top:1px solid #c5dde8; padding-top:8px; }
+
+/* Preview */
 .preview-wrap {
-  border: 1px solid var(--gray-light);
-  border-radius: 4px; padding: 28px;
-  background: white; overflow-x: auto;
+  border:1px solid var(--grey); border-radius:4px; padding:28px;
+  background:#fff; overflow-x:auto; min-height:200px;
 }
-.section-gap { margin-top: 22px; }
-.raw-toggle {
-  font-size: 12px; color: var(--gray-mid); cursor: pointer;
-  background: none; border: none; padding: 0;
-  text-decoration: underline; font-family: inherit;
+.preview-label {
+  font-size:11px; color:var(--mid); text-align:right; margin-bottom:6px;
+  font-style:italic;
 }
-.raw-panel { display: none; margin-top: 10px; }
-.raw-panel.open { display: block; }
-.raw-panel textarea {
-  width: 100%; min-height: 130px; padding: 10px;
-  font-family: 'Consolas','Courier New',monospace;
-  font-size: 11px; line-height: 1.4;
-  border: 1px solid var(--gray-light); border-radius: 4px;
-  resize: vertical; background: #FAFAFA; color: #333;
-}
-.raw-btns { display: flex; gap: 8px; margin-top: 8px; }
-.raw-btns button {
-  background: var(--white); color: var(--navy);
-  border: 1px solid var(--navy); font-size: 12px; padding: 7px 14px;
-}
-.raw-btns button:hover { background: var(--bg); }
+
 .toast {
-  position: fixed; bottom: 28px; right: 28px;
-  color: white; padding: 11px 18px; border-radius: 4px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-  transform: translateY(80px); opacity: 0;
-  transition: all 0.25s ease; z-index: 100;
-  font-size: 13px; font-weight: 600;
+  position:fixed; bottom:28px; right:28px; color:#fff;
+  padding:11px 18px; border-radius:4px; box-shadow:0 4px 12px rgba(0,0,0,.2);
+  transform:translateY(80px); opacity:0; transition:all .25s ease;
+  z-index:100; font-size:13px; font-weight:600;
 }
-.toast.show { transform: translateY(0); opacity: 1; }
+.toast.show { transform:translateY(0); opacity:1; }
 </style>
 </head>
 <body>
@@ -150,74 +117,88 @@ button {
 <header>
   <div>
     <h1>NB Industries – Outlook Signature Builder</h1>
-    <p>Generate your standardised email signature</p>
+    <p>Generate and install your standardised email signature</p>
   </div>
   <div class="badge">Outlook</div>
 </header>
 
 <div class="container">
 
-  <!-- ── LEFT: Form ──────────────────────────────────────── -->
+  <!-- ── LEFT ── -->
   <div class="panel">
     <h2>Your Details</h2>
     <div class="field">
       <label>Full Name <span class="req">*</span></label>
-      <input type="text" id="fullName" placeholder="e.g. Bradley Houghton" oninput="updateSignature()">
+      <input type="text" id="fullName" placeholder="e.g. Bradley Houghton" oninput="updatePreview()">
     </div>
     <div class="field">
       <label>Job Title <span class="req">*</span></label>
-      <input type="text" id="jobTitle" placeholder="e.g. ICT &amp; Systems Engineer" oninput="updateSignature()">
+      <input type="text" id="jobTitle" placeholder="e.g. Field Technician" oninput="updatePreview()">
     </div>
     <div class="field">
       <label>Mobile</label>
-      <input type="text" id="mobile" placeholder="e.g. 0438 399 640" oninput="updateSignature()">
+      <input type="text" id="mobile" placeholder="e.g. 0438 399 640" oninput="updatePreview()">
       <div class="hint">Leave blank if no work mobile</div>
     </div>
     <div class="field">
       <label>Office / Direct Phone</label>
-      <input type="text" id="office" value="07 4952 3931" oninput="updateSignature()">
+      <input type="text" id="office" value="07 4952 3931" oninput="updatePreview()">
     </div>
     <div class="field">
       <label>Email Address <span class="req">*</span></label>
-      <input type="email" id="email" placeholder="firstname.lastname@nbindustries.com.au" oninput="updateSignature()">
+      <input type="email" id="email" placeholder="firstname.lastname@nbindustries.com.au" oninput="updatePreview()">
     </div>
 
-    <button class="btn-primary" id="copyBtn" onclick="copyForOutlook()">
-      📋 Copy Signature for Outlook
-    </button>
-    <button class="btn-secondary" onclick="resetForm()">↺ Reset</button>
+    <button class="btn btn-download" onclick="downloadSig()">⬇ Download Signature File</button>
+    <button class="btn btn-reset" onclick="resetForm()">↺ Reset</button>
 
-    <div class="instructions">
-      <strong>📧 How to add to Outlook</strong>
-      <ol>
-        <li>Fill in your details above</li>
-        <li>Click <b>Copy Signature for Outlook</b></li>
-        <li>Open Outlook → <b>File → Options → Mail → Signatures…</b></li>
-        <li>Click <b>New</b>, name it (e.g. NBI Standard)</li>
-        <li>Click inside the edit box → press <b>Ctrl+V</b></li>
-        <li>Set as default for New messages &amp; Replies</li>
-        <li>Click <b>OK</b></li>
-      </ol>
-      <div class="note">⚠ If Ctrl+V pastes as plain text, right-click → <b>Paste Special → HTML Format</b>.</div>
+    <!-- Instructions -->
+    <div class="steps">
+      <strong>📧 How to install in Outlook</strong>
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">Fill in your details and click <b>Download Signature File</b></div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          Open File Explorer and paste this path into the address bar:
+          <div class="path-box">
+            <span>%APPDATA%\Microsoft\Signatures</span>
+            <button class="copy-path" onclick="copyPath()">Copy</button>
+          </div>
+          Press <b>Enter</b> to navigate there
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">Move the downloaded <b>.htm</b> file into that folder</div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">Open Outlook → <b>File → Options → Mail → Signatures…</b></div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text">Your signature will appear in the list — set it as default for <b>New messages</b> and <b>Replies</b> → click <b>OK</b></div>
+      </div>
+
+      <div class="note">⚠ Outlook must be restarted after saving the file if it was already open.</div>
     </div>
   </div>
 
-  <!-- ── RIGHT: Preview ──────────────────────────────────── -->
+  <!-- ── RIGHT ── -->
   <div class="panel">
     <h2>Live Preview</h2>
+    <div class="preview-label">Preview is approximate — the downloaded file will render correctly in Outlook</div>
     <div class="preview-wrap">
       <div id="preview">
         <em style="color:#aaa;font-size:13px;">Fill out your details to see the preview…</em>
-      </div>
-    </div>
-    <div class="section-gap">
-      <button class="raw-toggle" onclick="toggleRaw()">▶ Show raw HTML / fallback copy</button>
-      <div class="raw-panel" id="rawPanel">
-        <textarea id="output" readonly></textarea>
-        <div class="raw-btns">
-          <button onclick="copyRawHTML()">Copy Raw HTML</button>
-          <button onclick="downloadHTML()">💾 Download .html</button>
-        </div>
       </div>
     </div>
   </div>
@@ -232,109 +213,84 @@ function esc(s) {
     .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-/* ── Arrow cell + text cell — Outlook-safe two-column approach ── */
-function contactRow(href, value) {
-  return `<tr>
-    <td width="16" valign="middle" style="padding:3px 8px 3px 0;">
-      <img src="https://nbindustries.com.au/signature/arrow.png" width="14" height="14" alt="" border="0" style="display:block;">
-    </td>
-    <td valign="middle" style="padding:3px 0;font-size:10.5pt;line-height:16pt;color:#19262E;">
-      <a href="${href}" style="color:#19262E;text-decoration:none;">${value}</a>
-    </td>
-  </tr>`;
-}
-
-function generateSignature() {
+/* ── Generate the signature HTML (Outlook-safe) ────────────────────── */
+function buildSig() {
   const name   = esc(document.getElementById('fullName').value.trim()) || '[Your Name]';
   const title  = esc(document.getElementById('jobTitle').value.trim()) || '[Your Title]';
   const mobile = document.getElementById('mobile').value.trim();
   const office = document.getElementById('office').value.trim();
   const email  = document.getElementById('email').value.trim() || 'firstname.lastname@nbindustries.com.au';
 
-  let leftRows = '';
-  if (mobile) leftRows += contactRow(`tel:${mobile.replace(/\s+/g,'')}`, esc(mobile));
-  if (office) leftRows += contactRow(`tel:${office.replace(/\s+/g,'')}`, esc(office));
-  leftRows += contactRow(`mailto:${email}`, esc(email));
+  /* Arrow: single character + non-breaking space — no image dependency */
+  const arrow = '&#8250;&nbsp;';
 
-  const addrRow = `<tr>
-    <td width="16" valign="top" style="padding:3px 8px 3px 0;">
-      <img src="https://nbindustries.com.au/signature/arrow.png" width="14" height="14" alt="" border="0" style="display:block;margin-top:3px;">
-    </td>
-    <td valign="top" style="padding:3px 0;font-size:10.5pt;line-height:16pt;color:#19262E;">
-      PO Box 7138, Mackay Mail Centre, QLD, 4741
-    </td>
-  </tr>`;
+  /* Left column: phones + email, separated by <br>, spaced via line-height on TD */
+  let leftContent = '';
+  if (mobile) {
+    const t = mobile.replace(/\s+/g,'');
+    leftContent += `${arrow}<a href="tel:${t}" style="color:#19262E;text-decoration:none;">${esc(mobile)}</a><br>`;
+  }
+  if (office) {
+    const t = office.replace(/\s+/g,'');
+    leftContent += `${arrow}<a href="tel:${t}" style="color:#19262E;text-decoration:none;">${esc(office)}</a><br>`;
+  }
+  leftContent += `${arrow}<a href="mailto:${email}" style="color:#19262E;text-decoration:none;">${esc(email)}</a>`;
 
-  return `<table cellpadding="0" cellspacing="0" border="0" style="font-family:Calibri,Aptos,Arial,sans-serif;color:#19262E;border-collapse:collapse;width:560px;">
+  return `<table cellpadding="0" cellspacing="0" border="0" width="540" style="font-family:Calibri,Arial,sans-serif;color:#19262E;border-collapse:collapse;">
 
   <!-- Name & Title -->
-  <tr><td style="padding-bottom:4px;">
-    <p style="margin:0;font-size:16pt;font-weight:bold;color:#19262E;line-height:22pt;">${name}</p>
-    <p style="margin:0;font-size:11pt;color:#19262E;line-height:16pt;">${title}</p>
+  <tr><td style="padding-bottom:8px;">
+    <p style="margin:0;line-height:22pt;"><b style="font-size:16pt;">${name}</b></p>
+    <p style="margin:0;font-size:11pt;line-height:16pt;">${title}</p>
   </td></tr>
 
-  <!-- Divider 1 – light blue -->
-  <tr><td height="2" bgcolor="#B2D8EC" style="font-size:1px;line-height:1px;">&nbsp;</td></tr>
-  <tr><td height="8" style="font-size:1px;line-height:1px;">&nbsp;</td></tr>
+  <!-- Light blue divider -->
+  <tr><td bgcolor="#B2D8EC" height="2" style="font-size:0;line-height:0;">&nbsp;</td></tr>
+  <tr><td height="10" style="font-size:0;line-height:0;">&nbsp;</td></tr>
 
   <!-- Contact block -->
   <tr><td>
-    <table cellpadding="0" cellspacing="0" border="0" style="width:100%;"><tr>
-
-      <!-- Left: mobile / phone / email -->
-      <td width="55%" valign="top" style="padding-right:16px;">
-        <table cellpadding="0" cellspacing="0" border="0">
-          ${leftRows}
-        </table>
+    <table cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
+      <td width="55%" valign="top" style="font-size:10.5pt;line-height:20pt;color:#19262E;padding-right:16px;">
+        ${leftContent}
       </td>
-
-      <!-- Right: address -->
-      <td width="45%" valign="top">
-        <table cellpadding="0" cellspacing="0" border="0">
-          ${addrRow}
-        </table>
+      <td width="45%" valign="top" style="font-size:10.5pt;line-height:20pt;color:#19262E;">
+        ${arrow}PO Box 7138, Mackay Mail Centre, QLD, 4741
       </td>
-
     </tr></table>
   </td></tr>
 
-  <tr><td height="8" style="font-size:1px;line-height:1px;">&nbsp;</td></tr>
+  <tr><td height="10" style="font-size:0;line-height:0;">&nbsp;</td></tr>
 
-  <!-- Divider 2 – grey -->
-  <tr><td height="1" bgcolor="#cccccc" style="font-size:1px;line-height:1px;">&nbsp;</td></tr>
-  <tr><td height="8" style="font-size:1px;line-height:1px;">&nbsp;</td></tr>
+  <!-- Grey divider -->
+  <tr><td bgcolor="#cccccc" height="1" style="font-size:0;line-height:0;">&nbsp;</td></tr>
+  <tr><td height="8" style="font-size:0;line-height:0;">&nbsp;</td></tr>
 
-  <!-- Website + social icons -->
+  <!-- Website + social -->
   <tr><td>
-    <table cellpadding="0" cellspacing="0" border="0" style="width:100%;"><tr>
+    <table cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
       <td valign="middle" style="font-size:10.5pt;">
         <a href="https://nbindustries.com.au" style="color:#19262E;text-decoration:none;">nbindustries.com.au</a>
       </td>
       <td align="right" valign="middle">
-        <a href="https://www.facebook.com/NBIndustries.com.au/">
-          <img src="https://nbindustries.com.au/signature/fb.png" width="20" height="20" alt="Facebook" border="0" hspace="4" style="display:inline-block;vertical-align:middle;">
-        </a>
-        <a href="https://www.instagram.com/nbindustries/">
-          <img src="https://nbindustries.com.au/signature/instagram.png" width="22" height="22" alt="Instagram" border="0" hspace="4" style="display:inline-block;vertical-align:middle;">
-        </a>
-        <a href="https://www.linkedin.com/company/nbindustries/">
-          <img src="https://nbindustries.com.au/signature/linkedin.png" width="20" height="20" alt="LinkedIn" border="0" hspace="4" style="display:inline-block;vertical-align:middle;">
-        </a>
+        <a href="https://www.facebook.com/NBIndustries.com.au/"><img src="https://nbindustries.com.au/signature/fb.png" width="20" height="20" alt="Facebook" border="0" hspace="3"></a>
+        <a href="https://www.instagram.com/nbindustries/"><img src="https://nbindustries.com.au/signature/instagram.png" width="22" height="22" alt="Instagram" border="0" hspace="3"></a>
+        <a href="https://www.linkedin.com/company/nbindustries/"><img src="https://nbindustries.com.au/signature/linkedin.png" width="20" height="20" alt="LinkedIn" border="0" hspace="3"></a>
       </td>
     </tr></table>
   </td></tr>
 
-  <tr><td height="8" style="font-size:1px;line-height:1px;">&nbsp;</td></tr>
+  <tr><td height="8" style="font-size:0;line-height:0;">&nbsp;</td></tr>
 
-  <!-- Divider 3 – grey -->
-  <tr><td height="1" bgcolor="#cccccc" style="font-size:1px;line-height:1px;">&nbsp;</td></tr>
-  <tr><td height="8" style="font-size:1px;line-height:1px;">&nbsp;</td></tr>
+  <!-- Grey divider -->
+  <tr><td bgcolor="#cccccc" height="1" style="font-size:0;line-height:0;">&nbsp;</td></tr>
+  <tr><td height="10" style="font-size:0;line-height:0;">&nbsp;</td></tr>
 
   <!-- Logo + tagline -->
   <tr><td>
-    <table cellpadding="0" cellspacing="0" border="0" style="width:100%;"><tr>
+    <table cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
       <td valign="middle">
-        <img src="https://nbindustries.com.au/signature/nbindustries.png" width="200" height="32" alt="NB INDUSTRIES" border="0" style="display:block;">
+        <img src="https://nbindustries.com.au/signature/nbindustries.png" width="200" height="32" alt="NB INDUSTRIES" border="0">
       </td>
       <td align="right" valign="middle" style="font-size:13pt;font-weight:bold;color:#19262E;white-space:nowrap;">
         From the Ground Up
@@ -342,84 +298,69 @@ function generateSignature() {
     </tr></table>
   </td></tr>
 
-  <tr><td height="8" style="font-size:1px;line-height:1px;">&nbsp;</td></tr>
+  <tr><td height="8" style="font-size:0;line-height:0;">&nbsp;</td></tr>
 
   <!-- Values strip -->
   <tr><td>
-    <img src="https://nbindustries.com.au/signature/group.png" width="560" alt="Attitude Is Everything | Teamwork | Quality Without Compromise | Strong Relationships | Solve &amp; Share | Integrity" border="0" style="display:block;max-width:100%;">
+    <img src="https://nbindustries.com.au/signature/group.png" width="540" alt="Attitude Is Everything | Teamwork | Quality Without Compromise | Strong Relationships | Solve &amp; Share | Integrity" border="0" style="display:block;">
   </td></tr>
 
 </table>`;
 }
 
-function updateSignature() {
-  const html = generateSignature();
-  document.getElementById('preview').innerHTML = html;
-  document.getElementById('output').value = html;
+/* ── Download the .htm file ─────────────────────────────────────────── */
+function downloadSig() {
+  const name = document.getElementById('fullName').value.trim();
+  if (!name) { showToast('⚠ Please enter your name first', true); return; }
+
+  const sigHTML = buildSig();
+  const fileName = 'NBI Standard.htm';
+
+  const fullDoc = `<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+${sigHTML}
+</body>
+</html>`;
+
+  const blob = new Blob([fullDoc], { type: 'text/html;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('✓ Signature file downloaded — follow the steps to install', false);
 }
 
-async function copyForOutlook() {
-  const html = generateSignature();
-  const btn  = document.getElementById('copyBtn');
-  try {
-    await navigator.clipboard.write([
-      new ClipboardItem({
-        'text/html':  new Blob([html], { type: 'text/html' }),
-        'text/plain': new Blob([document.getElementById('fullName').value || 'NBI Signature'], { type: 'text/plain' })
-      })
-    ]);
-    showSuccess(btn);
-    showToast('✓ Copied — paste into Outlook with Ctrl+V', false);
-  } catch {
-    try {
-      const el = document.getElementById('preview');
-      const range = document.createRange();
-      range.selectNodeContents(el);
-      const sel = window.getSelection();
-      sel.removeAllRanges(); sel.addRange(range);
-      document.execCommand('copy');
-      sel.removeAllRanges();
-      showSuccess(btn);
-      showToast('✓ Copied — paste into Outlook with Ctrl+V', false);
-    } catch {
-      showToast('⚠ Copy failed — use the Raw HTML fallback below', true);
-    }
-  }
+/* ── Live preview ───────────────────────────────────────────────────── */
+function updatePreview() {
+  document.getElementById('preview').innerHTML = buildSig();
 }
 
-function showSuccess(btn) {
-  btn.textContent = '✓ Copied!';
-  btn.classList.add('copied');
-  setTimeout(() => { btn.textContent = '📋 Copy Signature for Outlook'; btn.classList.remove('copied'); }, 3000);
-}
-
-function copyRawHTML() {
-  const ta = document.getElementById('output');
-  ta.select(); document.execCommand('copy');
-  showToast('✓ Raw HTML copied', false);
-}
-
-function downloadHTML() {
-  const html = document.getElementById('output').value;
-  const name = document.getElementById('fullName').value.trim().replace(/\s+/g,'_') || 'signature';
-  const doc  = `<!DOCTYPE html>\n<html><head><meta charset="UTF-8"></head>\n<body style="padding:24px;">\n${html}\n</body></html>`;
-  const url  = URL.createObjectURL(new Blob([doc], { type: 'text/html' }));
-  const a = document.createElement('a');
-  a.href = url; a.download = `${name}_signature.html`;
-  a.click(); URL.revokeObjectURL(url);
-}
-
-function toggleRaw() {
-  const panel = document.getElementById('rawPanel');
-  const toggle = document.querySelector('.raw-toggle');
-  const open = panel.classList.toggle('open');
-  toggle.textContent = (open ? '▼' : '▶') + ' Show raw HTML / fallback copy';
+/* ── Copy Signatures folder path ────────────────────────────────────── */
+function copyPath() {
+  const path = '%APPDATA%\\Microsoft\\Signatures';
+  navigator.clipboard.writeText(path)
+    .then(() => showToast('✓ Path copied — paste into File Explorer address bar', false))
+    .catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = path; document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('✓ Path copied — paste into File Explorer address bar', false);
+    });
 }
 
 function resetForm() {
   ['fullName','jobTitle','mobile','email'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('office').value = '07 4952 3931';
-  updateSignature();
+  document.getElementById('preview').innerHTML = '<em style="color:#aaa;font-size:13px;">Fill out your details to see the preview…</em>';
 }
 
 function showToast(msg, isError) {
@@ -427,10 +368,8 @@ function showToast(msg, isError) {
   t.textContent = msg;
   t.style.background = isError ? '#C0392B' : '#2e7d32';
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3500);
+  setTimeout(() => t.classList.remove('show'), 4000);
 }
-
-updateSignature();
 </script>
 </body>
 </html>
