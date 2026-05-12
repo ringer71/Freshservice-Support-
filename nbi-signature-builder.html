@@ -63,10 +63,7 @@ header p  { margin: 4px 0 0; font-size: 13px; opacity: 0.8; }
   padding-bottom: 8px;
 }
 .field { margin-bottom: 15px; }
-.field label {
-  display: block; font-size: 13px;
-  font-weight: 600; margin-bottom: 4px;
-}
+.field label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
 .field label .req { color: var(--warn); }
 .field input {
   width: 100%; padding: 9px 11px;
@@ -87,23 +84,19 @@ button {
 }
 .btn-primary {
   background: var(--amber); color: var(--navy);
-  width: 100%; font-size: 14px; padding: 13px;
-  margin-top: 4px;
+  width: 100%; font-size: 14px; padding: 13px; margin-top: 4px;
 }
 .btn-primary:hover  { background: #B8902F; color: white; }
 .btn-primary.copied { background: var(--green); color: white; }
 .btn-secondary {
   background: var(--white); color: var(--navy);
-  border: 1px solid var(--navy);
-  margin-top: 8px; width: 100%;
+  border: 1px solid var(--navy); margin-top: 8px; width: 100%;
 }
 .btn-secondary:hover { background: var(--bg); }
 .instructions {
-  background: #FFF8E7;
-  border-left: 4px solid var(--amber);
+  background: #FFF8E7; border-left: 4px solid var(--amber);
   padding: 13px 15px; margin-top: 18px;
-  font-size: 12.5px; border-radius: 4px;
-  line-height: 1.5;
+  font-size: 12.5px; border-radius: 4px; line-height: 1.5;
 }
 .instructions strong {
   display: block; margin-bottom: 6px;
@@ -122,9 +115,8 @@ button {
 }
 .section-gap { margin-top: 22px; }
 .raw-toggle {
-  font-size: 12px; color: var(--gray-mid);
-  cursor: pointer; background: none;
-  border: none; padding: 0;
+  font-size: 12px; color: var(--gray-mid); cursor: pointer;
+  background: none; border: none; padding: 0;
   text-decoration: underline; font-family: inherit;
 }
 .raw-panel { display: none; margin-top: 10px; }
@@ -139,8 +131,7 @@ button {
 .raw-btns { display: flex; gap: 8px; margin-top: 8px; }
 .raw-btns button {
   background: var(--white); color: var(--navy);
-  border: 1px solid var(--navy);
-  font-size: 12px; padding: 7px 14px;
+  border: 1px solid var(--navy); font-size: 12px; padding: 7px 14px;
 }
 .raw-btns button:hover { background: var(--bg); }
 .toast {
@@ -169,7 +160,6 @@ button {
   <!-- ── LEFT: Form ──────────────────────────────────────── -->
   <div class="panel">
     <h2>Your Details</h2>
-
     <div class="field">
       <label>Full Name <span class="req">*</span></label>
       <input type="text" id="fullName" placeholder="e.g. Bradley Houghton" oninput="updateSignature()">
@@ -220,7 +210,6 @@ button {
         <em style="color:#aaa;font-size:13px;">Fill out your details to see the preview…</em>
       </div>
     </div>
-
     <div class="section-gap">
       <button class="raw-toggle" onclick="toggleRaw()">▶ Show raw HTML / fallback copy</button>
       <div class="raw-panel" id="rawPanel">
@@ -234,7 +223,6 @@ button {
   </div>
 
 </div>
-
 <div class="toast" id="toast"></div>
 
 <script>
@@ -244,6 +232,18 @@ function esc(s) {
     .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+/* ── Arrow cell + text cell — Outlook-safe two-column approach ── */
+function contactRow(href, value) {
+  return `<tr>
+    <td width="16" valign="middle" style="padding:3px 8px 3px 0;">
+      <img src="https://nbindustries.com.au/signature/arrow.png" width="14" height="14" alt="" border="0" style="display:block;">
+    </td>
+    <td valign="middle" style="padding:3px 0;font-size:10.5pt;line-height:16pt;color:#19262E;">
+      <a href="${href}" style="color:#19262E;text-decoration:none;">${value}</a>
+    </td>
+  </tr>`;
+}
+
 function generateSignature() {
   const name   = esc(document.getElementById('fullName').value.trim()) || '[Your Name]';
   const title  = esc(document.getElementById('jobTitle').value.trim()) || '[Your Title]';
@@ -251,103 +251,101 @@ function generateSignature() {
   const office = document.getElementById('office').value.trim();
   const email  = document.getElementById('email').value.trim() || 'firstname.lastname@nbindustries.com.au';
 
-  /* NBI arrow - matches the diagonal arrow mark from the NBI brand */
-  const arrow = `<img src="https://nbindustries.com.au/signature/arrow.png" width="14" height="14" alt="" border="0" style="display:inline-block;vertical-align:middle;margin-right:6px;">`;
-
-  /* Left column rows: mobile + office + email */
   let leftRows = '';
-  if (mobile) {
-    const t = mobile.replace(/\s+/g,'');
-    leftRows += `<tr><td style="padding:3px 0;font-size:10.5pt;color:#19262E;white-space:nowrap;vertical-align:middle;">${arrow}<a href="tel:${t}" style="color:#19262E;text-decoration:none;vertical-align:middle;">${esc(mobile)}</a></td></tr>`;
-  }
-  if (office) {
-    const t = office.replace(/\s+/g,'');
-    leftRows += `<tr><td style="padding:3px 0;font-size:10.5pt;color:#19262E;white-space:nowrap;vertical-align:middle;">${arrow}<a href="tel:${t}" style="color:#19262E;text-decoration:none;vertical-align:middle;">${esc(office)}</a></td></tr>`;
-  }
-  leftRows += `<tr><td style="padding:3px 0;font-size:10.5pt;color:#19262E;vertical-align:middle;">${arrow}<a href="mailto:${email}" style="color:#19262E;text-decoration:none;vertical-align:middle;">${esc(email)}</a></td></tr>`;
+  if (mobile) leftRows += contactRow(`tel:${mobile.replace(/\s+/g,'')}`, esc(mobile));
+  if (office) leftRows += contactRow(`tel:${office.replace(/\s+/g,'')}`, esc(office));
+  leftRows += contactRow(`mailto:${email}`, esc(email));
 
-  return `<table cellpadding="0" cellspacing="0" border="0" style="font-family:Calibri,Aptos,Arial,sans-serif;color:#19262E;border-collapse:collapse;width:560px;max-width:560px;">
+  const addrRow = `<tr>
+    <td width="16" valign="top" style="padding:3px 8px 3px 0;">
+      <img src="https://nbindustries.com.au/signature/arrow.png" width="14" height="14" alt="" border="0" style="display:block;margin-top:3px;">
+    </td>
+    <td valign="top" style="padding:3px 0;font-size:10.5pt;line-height:16pt;color:#19262E;">
+      PO Box 7138, Mackay Mail Centre, QLD, 4741
+    </td>
+  </tr>`;
+
+  return `<table cellpadding="0" cellspacing="0" border="0" style="font-family:Calibri,Aptos,Arial,sans-serif;color:#19262E;border-collapse:collapse;width:560px;">
 
   <!-- Name & Title -->
-  <tr><td style="padding-bottom:6px;">
-    <div style="font-size:16pt;font-weight:bold;color:#19262E;line-height:1.2;margin:0;">${name}</div>
-    <div style="font-size:11pt;color:#19262E;margin:3px 0 0 0;">${title}</div>
+  <tr><td style="padding-bottom:4px;">
+    <p style="margin:0;font-size:16pt;font-weight:bold;color:#19262E;line-height:22pt;">${name}</p>
+    <p style="margin:0;font-size:11pt;color:#19262E;line-height:16pt;">${title}</p>
   </td></tr>
 
   <!-- Divider 1 – light blue -->
-  <tr><td style="padding:0;">
-    <table cellpadding="0" cellspacing="0" border="0" style="width:100%;border-collapse:collapse;"><tr>
-      <td style="height:2px;background-color:#B2D8EC;font-size:1px;line-height:1px;">&nbsp;</td>
-    </tr></table>
-  </td></tr>
+  <tr><td height="2" bgcolor="#B2D8EC" style="font-size:1px;line-height:1px;">&nbsp;</td></tr>
+  <tr><td height="8" style="font-size:1px;line-height:1px;">&nbsp;</td></tr>
 
   <!-- Contact block -->
-  <tr><td style="padding:10px 0;">
-    <table cellpadding="0" cellspacing="0" border="0" style="width:100%;border-collapse:collapse;"><tr>
+  <tr><td>
+    <table cellpadding="0" cellspacing="0" border="0" style="width:100%;"><tr>
 
       <!-- Left: mobile / phone / email -->
-      <td style="vertical-align:top;width:55%;padding-right:12px;">
-        <table cellpadding="0" cellspacing="0" border="0">${leftRows}</table>
+      <td width="55%" valign="top" style="padding-right:16px;">
+        <table cellpadding="0" cellspacing="0" border="0">
+          ${leftRows}
+        </table>
       </td>
 
       <!-- Right: address -->
-      <td style="vertical-align:top;width:45%;">
+      <td width="45%" valign="top">
         <table cellpadding="0" cellspacing="0" border="0">
-          <tr><td style="padding:3px 0;font-size:10.5pt;color:#19262E;vertical-align:middle;">${arrow}PO Box 7138, Mackay Mail Centre, QLD, 4741</td></tr>
+          ${addrRow}
         </table>
       </td>
 
     </tr></table>
   </td></tr>
 
+  <tr><td height="8" style="font-size:1px;line-height:1px;">&nbsp;</td></tr>
+
   <!-- Divider 2 – grey -->
-  <tr><td style="padding:0;">
-    <table cellpadding="0" cellspacing="0" border="0" style="width:100%;border-collapse:collapse;"><tr>
-      <td style="height:1px;background-color:#cccccc;font-size:1px;line-height:1px;">&nbsp;</td>
-    </tr></table>
-  </td></tr>
+  <tr><td height="1" bgcolor="#cccccc" style="font-size:1px;line-height:1px;">&nbsp;</td></tr>
+  <tr><td height="8" style="font-size:1px;line-height:1px;">&nbsp;</td></tr>
 
   <!-- Website + social icons -->
-  <tr><td style="padding:8px 0;">
-    <table cellpadding="0" cellspacing="0" border="0" style="width:100%;border-collapse:collapse;"><tr>
-      <td style="font-size:10.5pt;vertical-align:middle;">
+  <tr><td>
+    <table cellpadding="0" cellspacing="0" border="0" style="width:100%;"><tr>
+      <td valign="middle" style="font-size:10.5pt;">
         <a href="https://nbindustries.com.au" style="color:#19262E;text-decoration:none;">nbindustries.com.au</a>
       </td>
-      <td style="text-align:right;vertical-align:middle;">
-        <a href="https://www.facebook.com/NBIndustries.com.au/" style="display:inline-block;margin-left:8px;vertical-align:middle;">
-          <img src="https://nbindustries.com.au/signature/fb.png" width="20" height="20" alt="Facebook" border="0" style="display:inline-block;vertical-align:middle;">
+      <td align="right" valign="middle">
+        <a href="https://www.facebook.com/NBIndustries.com.au/">
+          <img src="https://nbindustries.com.au/signature/fb.png" width="20" height="20" alt="Facebook" border="0" hspace="4" style="display:inline-block;vertical-align:middle;">
         </a>
-        <a href="https://www.instagram.com/nbindustries/" style="display:inline-block;margin-left:8px;vertical-align:middle;">
-          <img src="https://nbindustries.com.au/signature/instagram.png" width="22" height="22" alt="Instagram" border="0" style="display:inline-block;vertical-align:middle;">
+        <a href="https://www.instagram.com/nbindustries/">
+          <img src="https://nbindustries.com.au/signature/instagram.png" width="22" height="22" alt="Instagram" border="0" hspace="4" style="display:inline-block;vertical-align:middle;">
         </a>
-        <a href="https://www.linkedin.com/company/nbindustries/" style="display:inline-block;margin-left:8px;vertical-align:middle;">
-          <img src="https://nbindustries.com.au/signature/linkedin.png" width="20" height="20" alt="LinkedIn" border="0" style="display:inline-block;vertical-align:middle;">
+        <a href="https://www.linkedin.com/company/nbindustries/">
+          <img src="https://nbindustries.com.au/signature/linkedin.png" width="20" height="20" alt="LinkedIn" border="0" hspace="4" style="display:inline-block;vertical-align:middle;">
         </a>
       </td>
     </tr></table>
   </td></tr>
+
+  <tr><td height="8" style="font-size:1px;line-height:1px;">&nbsp;</td></tr>
 
   <!-- Divider 3 – grey -->
-  <tr><td style="padding:0;">
-    <table cellpadding="0" cellspacing="0" border="0" style="width:100%;border-collapse:collapse;"><tr>
-      <td style="height:1px;background-color:#cccccc;font-size:1px;line-height:1px;">&nbsp;</td>
-    </tr></table>
-  </td></tr>
+  <tr><td height="1" bgcolor="#cccccc" style="font-size:1px;line-height:1px;">&nbsp;</td></tr>
+  <tr><td height="8" style="font-size:1px;line-height:1px;">&nbsp;</td></tr>
 
   <!-- Logo + tagline -->
-  <tr><td style="padding:10px 0 6px 0;">
-    <table cellpadding="0" cellspacing="0" border="0" style="width:100%;border-collapse:collapse;"><tr>
-      <td style="vertical-align:middle;">
+  <tr><td>
+    <table cellpadding="0" cellspacing="0" border="0" style="width:100%;"><tr>
+      <td valign="middle">
         <img src="https://nbindustries.com.au/signature/nbindustries.png" width="200" height="32" alt="NB INDUSTRIES" border="0" style="display:block;">
       </td>
-      <td style="vertical-align:middle;text-align:right;font-size:13pt;font-weight:bold;color:#19262E;white-space:nowrap;">
+      <td align="right" valign="middle" style="font-size:13pt;font-weight:bold;color:#19262E;white-space:nowrap;">
         From the Ground Up
       </td>
     </tr></table>
   </td></tr>
 
-  <!-- Values strip – no fixed height so text labels show fully -->
-  <tr><td style="padding-top:6px;">
+  <tr><td height="8" style="font-size:1px;line-height:1px;">&nbsp;</td></tr>
+
+  <!-- Values strip -->
+  <tr><td>
     <img src="https://nbindustries.com.au/signature/group.png" width="560" alt="Attitude Is Everything | Teamwork | Quality Without Compromise | Strong Relationships | Solve &amp; Share | Integrity" border="0" style="display:block;max-width:100%;">
   </td></tr>
 
@@ -364,13 +362,11 @@ async function copyForOutlook() {
   const html = generateSignature();
   const btn  = document.getElementById('copyBtn');
   try {
-    const htmlBlob = new Blob([html], { type: 'text/html' });
-    const textBlob = new Blob(
-      [document.getElementById('fullName').value || 'NBI Signature'],
-      { type: 'text/plain' }
-    );
     await navigator.clipboard.write([
-      new ClipboardItem({ 'text/html': htmlBlob, 'text/plain': textBlob })
+      new ClipboardItem({
+        'text/html':  new Blob([html], { type: 'text/html' }),
+        'text/plain': new Blob([document.getElementById('fullName').value || 'NBI Signature'], { type: 'text/plain' })
+      })
     ]);
     showSuccess(btn);
     showToast('✓ Copied — paste into Outlook with Ctrl+V', false);
@@ -380,8 +376,7 @@ async function copyForOutlook() {
       const range = document.createRange();
       range.selectNodeContents(el);
       const sel = window.getSelection();
-      sel.removeAllRanges();
-      sel.addRange(range);
+      sel.removeAllRanges(); sel.addRange(range);
       document.execCommand('copy');
       sel.removeAllRanges();
       showSuccess(btn);
@@ -395,16 +390,12 @@ async function copyForOutlook() {
 function showSuccess(btn) {
   btn.textContent = '✓ Copied!';
   btn.classList.add('copied');
-  setTimeout(() => {
-    btn.textContent = '📋 Copy Signature for Outlook';
-    btn.classList.remove('copied');
-  }, 3000);
+  setTimeout(() => { btn.textContent = '📋 Copy Signature for Outlook'; btn.classList.remove('copied'); }, 3000);
 }
 
 function copyRawHTML() {
   const ta = document.getElementById('output');
-  ta.select();
-  document.execCommand('copy');
+  ta.select(); document.execCommand('copy');
   showToast('✓ Raw HTML copied', false);
 }
 
@@ -413,15 +404,15 @@ function downloadHTML() {
   const name = document.getElementById('fullName').value.trim().replace(/\s+/g,'_') || 'signature';
   const doc  = `<!DOCTYPE html>\n<html><head><meta charset="UTF-8"></head>\n<body style="padding:24px;">\n${html}\n</body></html>`;
   const url  = URL.createObjectURL(new Blob([doc], { type: 'text/html' }));
-  const a    = document.createElement('a');
+  const a = document.createElement('a');
   a.href = url; a.download = `${name}_signature.html`;
   a.click(); URL.revokeObjectURL(url);
 }
 
 function toggleRaw() {
-  const panel  = document.getElementById('rawPanel');
+  const panel = document.getElementById('rawPanel');
   const toggle = document.querySelector('.raw-toggle');
-  const open   = panel.classList.toggle('open');
+  const open = panel.classList.toggle('open');
   toggle.textContent = (open ? '▼' : '▶') + ' Show raw HTML / fallback copy';
 }
 
