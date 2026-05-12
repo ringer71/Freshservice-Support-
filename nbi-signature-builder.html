@@ -66,8 +66,6 @@ header p  { margin:4px 0 0; font-size:13px; opacity:.8; }
 .btn-download:hover { background:#B8902F; color:#fff; }
 .btn-reset { background:var(--white); color:var(--navy); border:1px solid var(--navy); font-size:13px; margin-top:8px; }
 .btn-reset:hover { background:var(--bg); }
-
-/* Steps */
 .steps {
   background:#EFF7FB; border-left:4px solid #B2D8EC;
   padding:14px 16px; margin-top:18px; border-radius:4px; font-size:12.5px; line-height:1.5;
@@ -92,17 +90,11 @@ header p  { margin:4px 0 0; font-size:13px; opacity:.8; }
 }
 .copy-path:hover { background:#666; }
 .note { margin-top:10px; font-size:11.5px; color:var(--mid); border-top:1px solid #c5dde8; padding-top:8px; }
-
-/* Preview */
 .preview-wrap {
   border:1px solid var(--grey); border-radius:4px; padding:28px;
   background:#fff; overflow-x:auto; min-height:200px;
 }
-.preview-label {
-  font-size:11px; color:var(--mid); text-align:right; margin-bottom:6px;
-  font-style:italic;
-}
-
+.preview-label { font-size:11px; color:var(--mid); text-align:right; margin-bottom:6px; font-style:italic; }
 .toast {
   position:fixed; bottom:28px; right:28px; color:#fff;
   padding:11px 18px; border-radius:4px; box-shadow:0 4px 12px rgba(0,0,0,.2);
@@ -152,43 +144,35 @@ header p  { margin:4px 0 0; font-size:13px; opacity:.8; }
     <button class="btn btn-download" onclick="downloadSig()">⬇ Download Signature File</button>
     <button class="btn btn-reset" onclick="resetForm()">↺ Reset</button>
 
-    <!-- Instructions -->
     <div class="steps">
       <strong>📧 How to install in Outlook</strong>
-
       <div class="step">
         <div class="step-num">1</div>
         <div class="step-text">Fill in your details and click <b>Download Signature File</b></div>
       </div>
-
       <div class="step">
         <div class="step-num">2</div>
         <div class="step-text">
-          Open File Explorer and paste this path into the address bar:
+          Open File Explorer, paste this path into the address bar and press <b>Enter</b>:
           <div class="path-box">
             <span>%APPDATA%\Microsoft\Signatures</span>
             <button class="copy-path" onclick="copyPath()">Copy</button>
           </div>
-          Press <b>Enter</b> to navigate there
         </div>
       </div>
-
       <div class="step">
         <div class="step-num">3</div>
-        <div class="step-text">Move the downloaded <b>.htm</b> file into that folder</div>
+        <div class="step-text">Move the downloaded <b>NBI Standard.htm</b> file into that folder</div>
       </div>
-
       <div class="step">
         <div class="step-num">4</div>
         <div class="step-text">Open Outlook → <b>File → Options → Mail → Signatures…</b></div>
       </div>
-
       <div class="step">
         <div class="step-num">5</div>
-        <div class="step-text">Your signature will appear in the list — set it as default for <b>New messages</b> and <b>Replies</b> → click <b>OK</b></div>
+        <div class="step-text">Select <b>NBI Standard</b> from the list, set as default for New messages &amp; Replies → <b>OK</b></div>
       </div>
-
-      <div class="note">⚠ Outlook must be restarted after saving the file if it was already open.</div>
+      <div class="note">⚠ Restart Outlook after saving the file if it was already open.</div>
     </div>
   </div>
 
@@ -213,7 +197,31 @@ function esc(s) {
     .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-/* ── Generate the signature HTML (Outlook-safe) ────────────────────── */
+/* ── Arrow row — two-cell table, image arrow + text ─────────────────── */
+function arrowRow(href, value, valignTop) {
+  const vAlign = valignTop ? 'top' : 'middle';
+  return `<tr>
+    <td width="22" valign="${vAlign}" style="padding-right:4px;${valignTop ? 'padding-top:2px;' : ''}">
+      <img src="https://nbindustries.com.au/signature/arrow.png" width="14" height="14" alt="" border="0" style="display:block;">
+    </td>
+    <td valign="${vAlign}" style="font-size:10.5pt;line-height:18pt;color:#19262E;padding-bottom:2px;">
+      <a href="${href}" style="color:#19262E;text-decoration:none;">${value}</a>
+    </td>
+  </tr>`;
+}
+
+function arrowText(text) {
+  return `<tr>
+    <td width="22" valign="top" style="padding-right:4px;padding-top:2px;">
+      <img src="https://nbindustries.com.au/signature/arrow.png" width="14" height="14" alt="" border="0" style="display:block;">
+    </td>
+    <td valign="top" style="font-size:10.5pt;line-height:18pt;color:#19262E;padding-bottom:2px;">
+      ${text}
+    </td>
+  </tr>`;
+}
+
+/* ── Build the Outlook-safe signature HTML ───────────────────────────── */
 function buildSig() {
   const name   = esc(document.getElementById('fullName').value.trim()) || '[Your Name]';
   const title  = esc(document.getElementById('jobTitle').value.trim()) || '[Your Title]';
@@ -221,70 +229,65 @@ function buildSig() {
   const office = document.getElementById('office').value.trim();
   const email  = document.getElementById('email').value.trim() || 'firstname.lastname@nbindustries.com.au';
 
-  /* Arrow: single character + non-breaking space — no image dependency */
-  const arrow = '&#8250;&nbsp;';
+  /* LEFT column: mobile + office phone only */
+  let leftRows = '';
+  if (mobile) leftRows += arrowRow(`tel:${mobile.replace(/\s+/g,'')}`, esc(mobile));
+  if (office) leftRows += arrowRow(`tel:${office.replace(/\s+/g,'')}`, esc(office));
 
-  /* Left column: phones + email, separated by <br>, spaced via line-height on TD */
-  let leftContent = '';
-  if (mobile) {
-    const t = mobile.replace(/\s+/g,'');
-    leftContent += `${arrow}<a href="tel:${t}" style="color:#19262E;text-decoration:none;">${esc(mobile)}</a><br>`;
-  }
-  if (office) {
-    const t = office.replace(/\s+/g,'');
-    leftContent += `${arrow}<a href="tel:${t}" style="color:#19262E;text-decoration:none;">${esc(office)}</a><br>`;
-  }
-  leftContent += `${arrow}<a href="mailto:${email}" style="color:#19262E;text-decoration:none;">${esc(email)}</a>`;
+  /* RIGHT column: address + email */
+  const rightRows =
+    arrowText('PO Box 7138, Mackay Mail Centre, QLD, 4741') +
+    arrowRow(`mailto:${email}`, esc(email));
 
   return `<table cellpadding="0" cellspacing="0" border="0" width="540" style="font-family:Calibri,Arial,sans-serif;color:#19262E;border-collapse:collapse;">
 
   <!-- Name & Title -->
-  <tr><td style="padding-bottom:8px;">
+  <tr><td style="padding-bottom:10px;">
     <p style="margin:0;line-height:22pt;"><b style="font-size:16pt;">${name}</b></p>
     <p style="margin:0;font-size:11pt;line-height:16pt;">${title}</p>
   </td></tr>
 
   <!-- Light blue divider -->
   <tr><td bgcolor="#B2D8EC" height="2" style="font-size:0;line-height:0;">&nbsp;</td></tr>
-  <tr><td height="10" style="font-size:0;line-height:0;">&nbsp;</td></tr>
+  <tr><td height="16" style="font-size:0;line-height:0;">&nbsp;</td></tr>
 
-  <!-- Contact block -->
+  <!-- Contact block: phones LEFT, address+email RIGHT -->
   <tr><td>
     <table cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
-      <td width="55%" valign="top" style="font-size:10.5pt;line-height:20pt;color:#19262E;padding-right:16px;">
-        ${leftContent}
+      <td width="50%" valign="top" style="padding-right:16px;">
+        <table cellpadding="0" cellspacing="0" border="0">${leftRows}</table>
       </td>
-      <td width="45%" valign="top" style="font-size:10.5pt;line-height:20pt;color:#19262E;">
-        ${arrow}PO Box 7138, Mackay Mail Centre, QLD, 4741
+      <td width="50%" valign="top">
+        <table cellpadding="0" cellspacing="0" border="0">${rightRows}</table>
       </td>
     </tr></table>
   </td></tr>
 
-  <tr><td height="10" style="font-size:0;line-height:0;">&nbsp;</td></tr>
+  <tr><td height="16" style="font-size:0;line-height:0;">&nbsp;</td></tr>
 
   <!-- Grey divider -->
   <tr><td bgcolor="#cccccc" height="1" style="font-size:0;line-height:0;">&nbsp;</td></tr>
-  <tr><td height="8" style="font-size:0;line-height:0;">&nbsp;</td></tr>
+  <tr><td height="14" style="font-size:0;line-height:0;">&nbsp;</td></tr>
 
-  <!-- Website + social -->
+  <!-- Website + social icons -->
   <tr><td>
     <table cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
       <td valign="middle" style="font-size:10.5pt;">
         <a href="https://nbindustries.com.au" style="color:#19262E;text-decoration:none;">nbindustries.com.au</a>
       </td>
       <td align="right" valign="middle">
-        <a href="https://www.facebook.com/NBIndustries.com.au/"><img src="https://nbindustries.com.au/signature/fb.png" width="20" height="20" alt="Facebook" border="0" hspace="3"></a>
-        <a href="https://www.instagram.com/nbindustries/"><img src="https://nbindustries.com.au/signature/instagram.png" width="22" height="22" alt="Instagram" border="0" hspace="3"></a>
-        <a href="https://www.linkedin.com/company/nbindustries/"><img src="https://nbindustries.com.au/signature/linkedin.png" width="20" height="20" alt="LinkedIn" border="0" hspace="3"></a>
+        <a href="https://www.facebook.com/NBIndustries.com.au/"><img src="https://nbindustries.com.au/signature/fb.png" width="20" height="20" alt="Facebook" border="0" hspace="4"></a>
+        <a href="https://www.instagram.com/nbindustries/"><img src="https://nbindustries.com.au/signature/instagram.png" width="22" height="22" alt="Instagram" border="0" hspace="4"></a>
+        <a href="https://www.linkedin.com/company/nbindustries/"><img src="https://nbindustries.com.au/signature/linkedin.png" width="20" height="20" alt="LinkedIn" border="0" hspace="4"></a>
       </td>
     </tr></table>
   </td></tr>
 
-  <tr><td height="8" style="font-size:0;line-height:0;">&nbsp;</td></tr>
+  <tr><td height="14" style="font-size:0;line-height:0;">&nbsp;</td></tr>
 
   <!-- Grey divider -->
   <tr><td bgcolor="#cccccc" height="1" style="font-size:0;line-height:0;">&nbsp;</td></tr>
-  <tr><td height="10" style="font-size:0;line-height:0;">&nbsp;</td></tr>
+  <tr><td height="16" style="font-size:0;line-height:0;">&nbsp;</td></tr>
 
   <!-- Logo + tagline -->
   <tr><td>
@@ -298,7 +301,7 @@ function buildSig() {
     </tr></table>
   </td></tr>
 
-  <tr><td height="8" style="font-size:0;line-height:0;">&nbsp;</td></tr>
+  <tr><td height="14" style="font-size:0;line-height:0;">&nbsp;</td></tr>
 
   <!-- Values strip -->
   <tr><td>
@@ -308,42 +311,34 @@ function buildSig() {
 </table>`;
 }
 
-/* ── Download the .htm file ─────────────────────────────────────────── */
+/* ── Download .htm file ─────────────────────────────────────────────── */
 function downloadSig() {
   const name = document.getElementById('fullName').value.trim();
   if (!name) { showToast('⚠ Please enter your name first', true); return; }
 
-  const sigHTML = buildSig();
-  const fileName = 'NBI Standard.htm';
-
-  const fullDoc = `<html>
+  const doc = `<html>
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 <body>
-${sigHTML}
+${buildSig()}
 </body>
 </html>`;
 
-  const blob = new Blob([fullDoc], { type: 'text/html;charset=utf-8' });
+  const blob = new Blob([doc], { type: 'text/html;charset=utf-8' });
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
-  a.href = url;
-  a.download = fileName;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  a.href = url; a.download = 'NBI Standard.htm';
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a); URL.revokeObjectURL(url);
   showToast('✓ Signature file downloaded — follow the steps to install', false);
 }
 
-/* ── Live preview ───────────────────────────────────────────────────── */
 function updatePreview() {
   document.getElementById('preview').innerHTML = buildSig();
 }
 
-/* ── Copy Signatures folder path ────────────────────────────────────── */
 function copyPath() {
   const path = '%APPDATA%\\Microsoft\\Signatures';
   navigator.clipboard.writeText(path)
@@ -365,10 +360,8 @@ function resetForm() {
 
 function showToast(msg, isError) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.background = isError ? '#C0392B' : '#2e7d32';
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 4000);
+  t.textContent = msg; t.style.background = isError ? '#C0392B' : '#2e7d32';
+  t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 4000);
 }
 </script>
 </body>
