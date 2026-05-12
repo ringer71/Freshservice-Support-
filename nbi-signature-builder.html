@@ -7,7 +7,6 @@
 <style>
 :root {
   --navy:  #19262E;
-  --blue:  #B2D8EC;
   --amber: #D4A847;
   --bg:    #F5F5F5;
   --white: #FFFFFF;
@@ -17,90 +16,39 @@
   --green: #2e7d32;
 }
 * { box-sizing: border-box; }
-body {
-  font-family: 'Aptos','Segoe UI',Arial,sans-serif;
-  margin:0; padding:0; background:var(--bg); color:var(--navy);
-}
-header {
-  background:var(--navy); color:var(--white);
-  padding:20px 32px; border-bottom:4px solid var(--amber);
-  display:flex; align-items:center; justify-content:space-between;
-}
+body { font-family:'Aptos','Segoe UI',Arial,sans-serif; margin:0; padding:0; background:var(--bg); color:var(--navy); }
+header { background:var(--navy); color:#fff; padding:20px 32px; border-bottom:4px solid var(--amber); display:flex; align-items:center; justify-content:space-between; }
 header h1 { margin:0; font-size:20px; }
 header p  { margin:4px 0 0; font-size:13px; opacity:.8; }
-.badge {
-  background:var(--amber); color:var(--navy);
-  font-size:11px; font-weight:700; padding:4px 10px;
-  border-radius:3px; letter-spacing:.5px; text-transform:uppercase;
-}
-.container {
-  max-width:1260px; margin:0 auto; padding:24px 32px;
-  display:grid; grid-template-columns:320px 1fr; gap:24px;
-}
+.badge { background:var(--amber); color:var(--navy); font-size:11px; font-weight:700; padding:4px 10px; border-radius:3px; letter-spacing:.5px; text-transform:uppercase; }
+.container { max-width:1260px; margin:0 auto; padding:24px 32px; display:grid; grid-template-columns:320px 1fr; gap:24px; }
 @media(max-width:900px){.container{grid-template-columns:1fr;padding:16px;}}
-.panel {
-  background:var(--white); border-radius:6px; padding:24px;
-  box-shadow:0 1px 3px rgba(0,0,0,.08);
-}
-.panel h2 {
-  margin:0 0 16px; font-size:13px; text-transform:uppercase;
-  letter-spacing:.5px; color:var(--navy);
-  border-bottom:2px solid var(--amber); padding-bottom:8px;
-}
+.panel { background:var(--white); border-radius:6px; padding:24px; box-shadow:0 1px 3px rgba(0,0,0,.08); }
+.panel h2 { margin:0 0 16px; font-size:13px; text-transform:uppercase; letter-spacing:.5px; color:var(--navy); border-bottom:2px solid var(--amber); padding-bottom:8px; }
 .field { margin-bottom:15px; }
 .field label { display:block; font-size:13px; font-weight:600; margin-bottom:4px; }
 .field label .req { color:var(--warn); }
-.field input {
-  width:100%; padding:9px 11px; border:1px solid var(--grey);
-  border-radius:4px; font-size:13px; font-family:inherit; color:var(--navy);
-  transition:border-color .15s,box-shadow .15s;
-}
+.field input { width:100%; padding:9px 11px; border:1px solid var(--grey); border-radius:4px; font-size:13px; font-family:inherit; color:var(--navy); transition:border-color .15s,box-shadow .15s; }
 .field input:focus { outline:none; border-color:var(--amber); box-shadow:0 0 0 2px rgba(212,168,71,.2); }
 .field .hint { font-size:11px; color:var(--mid); margin-top:3px; }
-.btn {
-  border:none; border-radius:4px; font-size:13px; font-weight:600;
-  cursor:pointer; font-family:inherit; transition:background .15s;
-  width:100%; padding:13px; margin-top:6px; display:block;
-}
-.btn-download { background:var(--amber); color:var(--navy); font-size:14px; }
-.btn-download:hover { background:#B8902F; color:#fff; }
+.btn { border:none; border-radius:4px; font-size:13px; font-weight:600; cursor:pointer; font-family:inherit; transition:background .15s; width:100%; padding:13px; margin-top:6px; display:block; }
+.btn-dl { background:var(--amber); color:var(--navy); font-size:14px; }
+.btn-dl:hover { background:#B8902F; color:#fff; }
 .btn-reset { background:var(--white); color:var(--navy); border:1px solid var(--navy); font-size:13px; margin-top:8px; }
 .btn-reset:hover { background:var(--bg); }
-.steps {
-  background:#EFF7FB; border-left:4px solid #B2D8EC;
-  padding:14px 16px; margin-top:18px; border-radius:4px; font-size:12.5px; line-height:1.5;
-}
+.steps { background:#EFF7FB; border-left:4px solid #B2D8EC; padding:14px 16px; margin-top:18px; border-radius:4px; font-size:12.5px; line-height:1.5; }
 .steps strong { display:block; margin-bottom:8px; font-size:12px; text-transform:uppercase; letter-spacing:.3px; color:var(--navy); }
 .step { display:flex; gap:10px; margin-bottom:8px; align-items:flex-start; }
-.step-num {
-  min-width:20px; height:20px; background:var(--navy); color:#fff;
-  border-radius:50%; display:flex; align-items:center; justify-content:center;
-  font-size:10px; font-weight:700; flex-shrink:0; margin-top:1px;
-}
+.step-num { min-width:20px; height:20px; background:var(--navy); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; flex-shrink:0; margin-top:1px; }
 .step-text { font-size:12.5px; color:#333; }
-.path-box {
-  background:#1e1e1e; color:#d4d4d4; font-family:'Consolas','Courier New',monospace;
-  font-size:11px; padding:8px 12px; border-radius:4px; margin:6px 0;
-  display:flex; align-items:center; justify-content:space-between; gap:8px;
-}
+.path-box { background:#1e1e1e; color:#d4d4d4; font-family:'Consolas','Courier New',monospace; font-size:11px; padding:8px 12px; border-radius:4px; margin:6px 0; display:flex; align-items:center; justify-content:space-between; gap:8px; }
 .path-box span { flex:1; word-break:break-all; }
-.copy-path {
-  background:#444; color:#fff; border:none; border-radius:3px;
-  font-size:10px; padding:3px 8px; cursor:pointer; white-space:nowrap; flex-shrink:0;
-}
+.copy-path { background:#444; color:#fff; border:none; border-radius:3px; font-size:10px; padding:3px 8px; cursor:pointer; white-space:nowrap; flex-shrink:0; }
 .copy-path:hover { background:#666; }
 .note { margin-top:10px; font-size:11.5px; color:var(--mid); border-top:1px solid #c5dde8; padding-top:8px; }
-.preview-wrap {
-  border:1px solid var(--grey); border-radius:4px; padding:28px;
-  background:#fff; overflow-x:auto; min-height:200px;
-}
+.preview-wrap { border:1px solid var(--grey); border-radius:4px; padding:28px; background:#fff; overflow-x:auto; min-height:200px; }
 .preview-label { font-size:11px; color:var(--mid); text-align:right; margin-bottom:6px; font-style:italic; }
-.toast {
-  position:fixed; bottom:28px; right:28px; color:#fff;
-  padding:11px 18px; border-radius:4px; box-shadow:0 4px 12px rgba(0,0,0,.2);
-  transform:translateY(80px); opacity:0; transition:all .25s ease;
-  z-index:100; font-size:13px; font-weight:600;
-}
+.toast { position:fixed; bottom:28px; right:28px; color:#fff; padding:11px 18px; border-radius:4px; box-shadow:0 4px 12px rgba(0,0,0,.2); transform:translateY(80px); opacity:0; transition:all .25s ease; z-index:100; font-size:13px; font-weight:600; }
 .toast.show { transform:translateY(0); opacity:1; }
 </style>
 </head>
@@ -115,7 +63,6 @@ header p  { margin:4px 0 0; font-size:13px; opacity:.8; }
 </header>
 
 <div class="container">
-
   <!-- ── LEFT ── -->
   <div class="panel">
     <h2>Your Details</h2>
@@ -141,37 +88,22 @@ header p  { margin:4px 0 0; font-size:13px; opacity:.8; }
       <input type="email" id="email" placeholder="firstname.lastname@nbindustries.com.au" oninput="updatePreview()">
     </div>
 
-    <button class="btn btn-download" onclick="downloadSig()">⬇ Download Signature File</button>
+    <button class="btn btn-dl" onclick="downloadSig()">⬇ Download Signature File</button>
     <button class="btn btn-reset" onclick="resetForm()">↺ Reset</button>
 
     <div class="steps">
       <strong>📧 How to install in Outlook</strong>
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-text">Fill in your details and click <b>Download Signature File</b></div>
-      </div>
+      <div class="step"><div class="step-num">1</div><div class="step-text">Fill in your details and click <b>Download Signature File</b></div></div>
       <div class="step">
         <div class="step-num">2</div>
         <div class="step-text">
-          Open File Explorer, paste this path into the address bar and press <b>Enter</b>:
-          <div class="path-box">
-            <span>%APPDATA%\Microsoft\Signatures</span>
-            <button class="copy-path" onclick="copyPath()">Copy</button>
-          </div>
+          Open File Explorer, paste this into the address bar and press <b>Enter</b>:
+          <div class="path-box"><span>%APPDATA%\Microsoft\Signatures</span><button class="copy-path" onclick="copyPath()">Copy</button></div>
         </div>
       </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-text">Move the downloaded <b>NBI Standard.htm</b> file into that folder</div>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <div class="step-text">Open Outlook → <b>File → Options → Mail → Signatures…</b></div>
-      </div>
-      <div class="step">
-        <div class="step-num">5</div>
-        <div class="step-text">Select <b>NBI Standard</b> from the list, set as default for New messages &amp; Replies → <b>OK</b></div>
-      </div>
+      <div class="step"><div class="step-num">3</div><div class="step-text">Move the downloaded <b>NBI Standard.htm</b> file into that folder</div></div>
+      <div class="step"><div class="step-num">4</div><div class="step-text">Open Outlook → <b>File → Options → Mail → Signatures…</b></div></div>
+      <div class="step"><div class="step-num">5</div><div class="step-text">Select <b>NBI Standard</b>, set as default for New messages &amp; Replies → <b>OK</b></div></div>
       <div class="note">⚠ Restart Outlook after saving the file if it was already open.</div>
     </div>
   </div>
@@ -179,154 +111,227 @@ header p  { margin:4px 0 0; font-size:13px; opacity:.8; }
   <!-- ── RIGHT ── -->
   <div class="panel">
     <h2>Live Preview</h2>
-    <div class="preview-label">Preview is approximate — the downloaded file will render correctly in Outlook</div>
-    <div class="preview-wrap">
-      <div id="preview">
-        <em style="color:#aaa;font-size:13px;">Fill out your details to see the preview…</em>
-      </div>
-    </div>
+    <div class="preview-label">Preview approximates layout — downloaded file renders identically to the existing NBI signature</div>
+    <div class="preview-wrap"><div id="preview"><em style="color:#aaa;font-size:13px;">Fill out your details to see the preview…</em></div></div>
   </div>
-
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
+/* ── Image URLs (hosted on NBI website) ─────────────────────────────── */
+const IMG = 'https://nbindustries.com.au/signature/';
+const spacer  = IMG + 'spacer.png';
+const arrow   = IMG + 'arrow.png';
+const fb      = IMG + 'fb.png';
+const ig      = IMG + 'instagram.png';
+const li      = IMG + 'linkedin.png';
+const logo    = IMG + 'nbindustries.png';
+const group   = IMG + 'group.png';
+
 function esc(s) {
-  return String(s)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
+function tel(s) { return s.replace(/\s+/g,''); }
 
-/* ── Arrow row — two-cell table, image arrow + text ─────────────────── */
-function arrowRow(href, value, valignTop) {
-  const vAlign = valignTop ? 'top' : 'middle';
-  return `<tr>
-    <td width="22" valign="${vAlign}" style="padding-right:4px;${valignTop ? 'padding-top:2px;' : ''}">
-      <img src="https://nbindustries.com.au/signature/arrow.png" width="14" height="14" alt="" border="0" style="display:block;">
-    </td>
-    <td valign="${vAlign}" style="font-size:10.5pt;line-height:18pt;color:#19262E;padding-bottom:2px;">
-      <a href="${href}" style="color:#19262E;text-decoration:none;">${value}</a>
-    </td>
-  </tr>`;
-}
+/* ── Exact replica of Brad's Outlook signature structure ────────────── */
+/* Uses spacer.png images for all spacing — same technique as the original */
+function buildSig(name, title, mobile, office, email) {
 
-function arrowText(text) {
-  return `<tr>
-    <td width="22" valign="top" style="padding-right:4px;padding-top:2px;">
-      <img src="https://nbindustries.com.au/signature/arrow.png" width="14" height="14" alt="" border="0" style="display:block;">
-    </td>
-    <td valign="top" style="font-size:10.5pt;line-height:18pt;color:#19262E;padding-bottom:2px;">
-      ${text}
-    </td>
-  </tr>`;
-}
+  /* ── Contact row: arrow | gap | text (3-cell structure) ── */
+  function phoneRow(href, display) {
+    return `<tr>
+      <td width="14" style="width:10.5pt;padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><img width="8" height="12" src="${arrow}" alt="›" border="0" style="height:.125in;width:.083in"></p></td>
+      <td width="8"  style="width:6.0pt;padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><img width="8" height="1" src="${spacer}" border="0" style="height:.01in;width:.083in"></p></td>
+      <td style="padding:0cm 0cm 0cm 0cm"><p style="margin:0;line-height:15.0pt;font-size:12pt;font-family:Aptos,sans-serif"><span style="font-size:10.5pt;color:black"><a href="${href}" style="color:black;text-decoration:none">${display}</a></span></p></td>
+    </tr>
+    <tr><td colspan="3" style="padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><img border="0" width="1" height="10" src="${spacer}" style="height:.104in;width:.01in"></p></td></tr>`;
+  }
 
-/* ── Build the Outlook-safe signature HTML ───────────────────────────── */
-function buildSig() {
-  const name   = esc(document.getElementById('fullName').value.trim()) || '[Your Name]';
-  const title  = esc(document.getElementById('jobTitle').value.trim()) || '[Your Title]';
-  const mobile = document.getElementById('mobile').value.trim();
-  const office = document.getElementById('office').value.trim();
-  const email  = document.getElementById('email').value.trim() || 'firstname.lastname@nbindustries.com.au';
+  function addrRow(text) {
+    return `<tr>
+      <td width="14" style="width:10.5pt;padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><img border="0" width="8" height="12" src="${arrow}" alt="›" style="height:.125in;width:.083in"></p></td>
+      <td width="8"  style="width:6.0pt;padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><img border="0" width="8" height="1" src="${spacer}" style="height:.01in;width:.083in"></p></td>
+      <td style="padding:0cm 0cm 0cm 0cm"><p style="margin:0;line-height:15.0pt;font-size:12pt;font-family:Aptos,sans-serif"><span style="font-size:10.5pt">${text}</span></p></td>
+    </tr>
+    <tr><td colspan="3" style="padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><img border="0" width="1" height="10" src="${spacer}" style="height:.104in;width:.01in"></p></td></tr>`;
+  }
 
-  /* LEFT column: mobile + office phone only */
+  function emailRow(address) {
+    return `<tr>
+      <td width="14" style="width:10.5pt;padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><img border="0" width="8" height="12" src="${arrow}" alt="›" style="height:.125in;width:.083in"></p></td>
+      <td width="8"  style="width:6.0pt;padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><img border="0" width="8" height="1" src="${spacer}" style="height:.01in;width:.083in"></p></td>
+      <td style="padding:0cm 0cm 0cm 0cm"><p style="margin:0;line-height:15.0pt;font-size:12pt;font-family:Aptos,sans-serif"><span style="font-size:10.5pt;color:black"><a href="mailto:${address}" style="color:black;text-decoration:none">${esc(address)}</a></span></p></td>
+    </tr>`;
+  }
+
+  /* ── Blue divider (with 20px spacers above and below) ── */
+  const blueDivider = `
+  <table border="0" cellspacing="0" cellpadding="0" width="538" style="width:403.5pt">
+    <tbody>
+      <tr><td style="padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><img border="0" width="1" height="20" src="${spacer}" style="height:.208in;width:.01in"></p></td></tr>
+      <tr><td style="background:#B2D8EC;padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><img border="0" width="1" height="1" src="${spacer}" style="height:.01in;width:.01in"></p></td></tr>
+      <tr><td style="padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><img border="0" width="1" height="20" src="${spacer}" style="height:.208in;width:.01in"></p></td></tr>
+    </tbody>
+  </table>
+  <p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><span style="color:#19262E">&nbsp;</span></p>`;
+
+  /* ── Left column: phones only ── */
   let leftRows = '';
-  if (mobile) leftRows += arrowRow(`tel:${mobile.replace(/\s+/g,'')}`, esc(mobile));
-  if (office) leftRows += arrowRow(`tel:${office.replace(/\s+/g,'')}`, esc(office));
+  if (mobile) leftRows += phoneRow(`tel:${tel(mobile)}`, esc(mobile));
+  if (office) leftRows += phoneRow(`tel:${tel(office)}`, esc(office));
 
-  /* RIGHT column: address + email */
-  const rightRows =
-    arrowText('PO Box 7138, Mackay Mail Centre, QLD, 4741') +
-    arrowRow(`mailto:${email}`, esc(email));
+  /* ── Right column: address + email ── */
+  const rightRows = addrRow('PO Box 7138, Mackay Mail Centre, QLD, 4741') + emailRow(email);
 
-  return `<table cellpadding="0" cellspacing="0" border="0" width="540" style="font-family:Calibri,Arial,sans-serif;color:#19262E;border-collapse:collapse;">
+  return `<div style="word-wrap:break-word">
+<div>
+<table border="0" cellspacing="0" cellpadding="0" width="538" style="width:403.5pt">
+<tbody>
+<tr>
+<td style="padding:0cm 0cm 0cm 0cm">
 
-  <!-- Name & Title -->
-  <tr><td style="padding-bottom:10px;">
-    <p style="margin:0;line-height:22pt;"><b style="font-size:16pt;">${name}</b></p>
-    <p style="margin:0;font-size:11pt;line-height:16pt;">${title}</p>
-  </td></tr>
+  <!-- Name -->
+  <table border="0" cellspacing="0" cellpadding="0" width="538" style="width:403.5pt">
+    <tbody>
+      <tr><td style="padding:0cm 0cm 0cm 0cm"><p style="margin:0;line-height:19.5pt;font-size:12pt;font-family:Aptos,sans-serif"><b><span style="font-size:16.5pt">${name}</span></b></p></td></tr>
+      <tr><td style="padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><span style="font-size:15.0pt">${title}</span></p></td></tr>
+    </tbody>
+  </table>
+  <p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><span style="color:#19262E">&nbsp;</span></p>
 
-  <!-- Light blue divider -->
-  <tr><td bgcolor="#B2D8EC" height="2" style="font-size:0;line-height:0;">&nbsp;</td></tr>
-  <tr><td height="16" style="font-size:0;line-height:0;">&nbsp;</td></tr>
+  <!-- Spacer -->
+  <table border="0" cellspacing="0" cellpadding="0" width="538" style="width:403.5pt">
+    <tbody><tr><td style="padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><img width="1" height="20" src="${spacer}" border="0" style="height:.208in;width:.01in"></p></td></tr></tbody>
+  </table>
+  <p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><span style="color:#19262E">&nbsp;</span></p>
 
-  <!-- Contact block: phones LEFT, address+email RIGHT -->
-  <tr><td>
-    <table cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
-      <td width="50%" valign="top" style="padding-right:16px;">
-        <table cellpadding="0" cellspacing="0" border="0">${leftRows}</table>
-      </td>
-      <td width="50%" valign="top">
-        <table cellpadding="0" cellspacing="0" border="0">${rightRows}</table>
-      </td>
-    </tr></table>
-  </td></tr>
+  <!-- Blue divider -->
+  <table border="0" cellspacing="0" cellpadding="0" width="538" style="width:403.5pt">
+    <tbody>
+      <tr><td style="background:#B2D8EC;padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><span style="color:black"><img width="1" height="1" src="${spacer}" border="0" style="height:.01in;width:.01in"></span></p></td></tr>
+    </tbody>
+  </table>
+  <p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><span style="color:#19262E">&nbsp;</span></p>
 
-  <tr><td height="16" style="font-size:0;line-height:0;">&nbsp;</td></tr>
+  <!-- Spacer -->
+  <table border="0" cellspacing="0" cellpadding="0" width="538" style="width:403.5pt">
+    <tbody><tr><td style="padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><img width="1" height="20" src="${spacer}" border="0" style="height:.208in;width:.01in"></p></td></tr></tbody>
+  </table>
+  <p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><span style="color:#19262E">&nbsp;</span></p>
 
-  <!-- Grey divider -->
-  <tr><td bgcolor="#cccccc" height="1" style="font-size:0;line-height:0;">&nbsp;</td></tr>
-  <tr><td height="14" style="font-size:0;line-height:0;">&nbsp;</td></tr>
+  <!-- Contact block -->
+  <table border="0" cellspacing="0" cellpadding="0" width="538" style="width:403.5pt">
+    <tbody>
+      <tr>
+        <!-- Left: phones -->
+        <td width="1440" valign="top" style="width:1080.0pt;padding:0cm 0cm 0cm 0cm">
+          <table border="0" cellspacing="0" cellpadding="0" width="150" style="width:112.5pt">
+            <tbody>${leftRows}</tbody>
+          </table>
+        </td>
+        <!-- Gap -->
+        <td width="20" style="width:15.0pt;padding:0cm 0cm 0cm 0cm">
+          <p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><img border="0" width="20" height="1" src="${spacer}" style="height:.01in;width:.208in"></p>
+        </td>
+        <!-- Right: address + email -->
+        <td width="388" valign="top" style="width:291.0pt;padding:0cm 0cm 0cm 0cm">
+          <table border="0" cellspacing="0" cellpadding="0" width="388" style="width:291.0pt">
+            <tbody>${rightRows}</tbody>
+          </table>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><span style="color:#19262E">&nbsp;</span></p>
 
-  <!-- Website + social icons -->
-  <tr><td>
-    <table cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
-      <td valign="middle" style="font-size:10.5pt;">
-        <a href="https://nbindustries.com.au" style="color:#19262E;text-decoration:none;">nbindustries.com.au</a>
-      </td>
-      <td align="right" valign="middle">
-        <a href="https://www.facebook.com/NBIndustries.com.au/"><img src="https://nbindustries.com.au/signature/fb.png" width="20" height="20" alt="Facebook" border="0" hspace="4"></a>
-        <a href="https://www.instagram.com/nbindustries/"><img src="https://nbindustries.com.au/signature/instagram.png" width="22" height="22" alt="Instagram" border="0" hspace="4"></a>
-        <a href="https://www.linkedin.com/company/nbindustries/"><img src="https://nbindustries.com.au/signature/linkedin.png" width="20" height="20" alt="LinkedIn" border="0" hspace="4"></a>
-      </td>
-    </tr></table>
-  </td></tr>
+  ${blueDivider}
 
-  <tr><td height="14" style="font-size:0;line-height:0;">&nbsp;</td></tr>
+  <!-- Website + social -->
+  <table border="0" cellspacing="0" cellpadding="0" width="538" style="width:403.5pt">
+    <tbody>
+      <tr>
+        <td style="padding:0cm 0cm 0cm 0cm">
+          <p style="margin:0;line-height:15.0pt;font-size:12pt;font-family:Aptos,sans-serif"><a href="https://nbindustries.com.au" target="_blank"><span style="color:#19262E">nbindustries.com.au</span></a></p>
+        </td>
+        <td style="padding:0cm 0cm 0cm 0cm">
+          <div align="right">
+            <table border="0" cellspacing="0" cellpadding="0">
+              <tbody>
+                <tr>
+                  <td style="padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><a href="https://www.facebook.com/NBIndustries.com.au/" target="_blank"><img border="0" width="19" height="20" src="${fb}" alt="Facebook" style="height:.208in;width:.197in"></a></p></td>
+                  <td style="padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><img border="0" width="12" height="1" src="${spacer}" style="height:.01in;width:.125in"></p></td>
+                  <td style="padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><a href="https://www.instagram.com/nbindustries/" target="_blank"><img border="0" width="22" height="22" src="${ig}" alt="Instagram" style="height:.229in;width:.229in"></a></p></td>
+                  <td style="padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><img border="0" width="12" height="1" src="${spacer}" style="height:.01in;width:.125in"></p></td>
+                  <td style="padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><a href="https://www.linkedin.com/company/nbindustries/" target="_blank"><img border="0" width="20" height="20" src="${li}" alt="LinkedIn" style="height:.208in;width:.208in"></a></p></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><span style="color:#19262E">&nbsp;</span></p>
 
-  <!-- Grey divider -->
-  <tr><td bgcolor="#cccccc" height="1" style="font-size:0;line-height:0;">&nbsp;</td></tr>
-  <tr><td height="16" style="font-size:0;line-height:0;">&nbsp;</td></tr>
+  ${blueDivider}
 
   <!-- Logo + tagline -->
-  <tr><td>
-    <table cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
-      <td valign="middle">
-        <img src="https://nbindustries.com.au/signature/nbindustries.png" width="200" height="32" alt="NB INDUSTRIES" border="0">
-      </td>
-      <td align="right" valign="middle" style="font-size:13pt;font-weight:bold;color:#19262E;white-space:nowrap;">
-        From the Ground Up
-      </td>
-    </tr></table>
-  </td></tr>
+  <table border="0" cellspacing="0" cellpadding="0" width="538" style="width:403.5pt">
+    <tbody>
+      <tr>
+        <td width="269" style="width:201.75pt;padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><img border="0" width="200" height="32" src="${logo}" alt="NB INDUSTRIES" style="height:.333in;width:2.083in"></p></td>
+        <td width="20"  style="width:15.0pt;padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><img border="0" width="20" height="1" src="${spacer}" style="height:.01in;width:.208in"></p></td>
+        <td style="padding:0cm 0cm 0cm 0cm"><p style="margin:0;text-align:right;font-size:12pt;font-family:Aptos,sans-serif" align="right"><b><span style="font-size:15.0pt">From the Ground Up</span></b></p></td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><span style="color:#19262E">&nbsp;</span></p>
 
-  <tr><td height="14" style="font-size:0;line-height:0;">&nbsp;</td></tr>
+  <!-- Small spacer before values strip -->
+  <table border="0" cellspacing="0" cellpadding="0" width="269" style="width:201.75pt">
+    <tbody><tr><td style="padding:0cm 0cm 0cm 0cm"><p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><img border="0" width="1" height="14" src="${spacer}" style="height:.145in;width:.01in"></p></td></tr></tbody>
+  </table>
 
   <!-- Values strip -->
-  <tr><td>
-    <img src="https://nbindustries.com.au/signature/group.png" width="540" alt="Attitude Is Everything | Teamwork | Quality Without Compromise | Strong Relationships | Solve &amp; Share | Integrity" border="0" style="display:block;">
-  </td></tr>
+  <p style="margin:0;font-size:12pt;font-family:Aptos,sans-serif"><img border="0" width="538" height="87" src="${group}" style="height:.906in;width:5.604in"></p>
 
-</table>`;
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>`;
 }
 
-/* ── Download .htm file ─────────────────────────────────────────────── */
+/* ── Build with form values ─────────────────────────────────────────── */
+function getValues() {
+  return {
+    name:   esc(document.getElementById('fullName').value.trim()) || '[Your Name]',
+    title:  esc(document.getElementById('jobTitle').value.trim()) || '[Your Title]',
+    mobile: document.getElementById('mobile').value.trim(),
+    office: document.getElementById('office').value.trim(),
+    email:  document.getElementById('email').value.trim() || 'firstname.lastname@nbindustries.com.au'
+  };
+}
+
+function updatePreview() {
+  const v = getValues();
+  document.getElementById('preview').innerHTML = buildSig(v.name, v.title, v.mobile, v.office, v.email);
+}
+
+/* ── Download as .htm file ──────────────────────────────────────────── */
 function downloadSig() {
   const name = document.getElementById('fullName').value.trim();
   if (!name) { showToast('⚠ Please enter your name first', true); return; }
+  const v = getValues();
 
-  const doc = `<html>
-<head>
-<meta charset="UTF-8">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-</head>
-<body>
-${buildSig()}
-</body>
-</html>`;
+  const doc = `<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>
+p { margin:0; font-size:12.0pt; font-family:"Aptos",sans-serif; }
+</style>
+${buildSig(v.name, v.title, v.mobile, v.office, v.email)}`;
 
-  const blob = new Blob([doc], { type: 'text/html;charset=utf-8' });
+  const blob = new Blob([doc], { type:'text/html;charset=utf-8' });
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
   a.href = url; a.download = 'NBI Standard.htm';
@@ -335,33 +340,28 @@ ${buildSig()}
   showToast('✓ Signature file downloaded — follow the steps to install', false);
 }
 
-function updatePreview() {
-  document.getElementById('preview').innerHTML = buildSig();
-}
-
 function copyPath() {
-  const path = '%APPDATA%\\Microsoft\\Signatures';
-  navigator.clipboard.writeText(path)
+  const p = '%APPDATA%\\Microsoft\\Signatures';
+  navigator.clipboard.writeText(p)
     .then(() => showToast('✓ Path copied — paste into File Explorer address bar', false))
     .catch(() => {
       const ta = document.createElement('textarea');
-      ta.value = path; document.body.appendChild(ta);
-      ta.select(); document.execCommand('copy');
-      document.body.removeChild(ta);
-      showToast('✓ Path copied — paste into File Explorer address bar', false);
+      ta.value = p; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+      showToast('✓ Path copied', false);
     });
 }
 
 function resetForm() {
-  ['fullName','jobTitle','mobile','email'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('office').value = '07 4952 3931';
-  document.getElementById('preview').innerHTML = '<em style="color:#aaa;font-size:13px;">Fill out your details to see the preview…</em>';
+  ['fullName','jobTitle','mobile','email'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('office').value='07 4952 3931';
+  document.getElementById('preview').innerHTML='<em style="color:#aaa;font-size:13px;">Fill out your details to see the preview…</em>';
 }
 
 function showToast(msg, isError) {
   const t = document.getElementById('toast');
-  t.textContent = msg; t.style.background = isError ? '#C0392B' : '#2e7d32';
-  t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 4000);
+  t.textContent=msg; t.style.background=isError?'#C0392B':'#2e7d32';
+  t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),4000);
 }
 </script>
 </body>
